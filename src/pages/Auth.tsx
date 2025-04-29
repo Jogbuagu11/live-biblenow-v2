@@ -5,7 +5,7 @@ import Logo from '../components/Logo';
 import FormField from '../components/FormField';
 import Button from '../components/Button';
 import { useIsMobile } from '../hooks/use-mobile';
-import { Phone, Apple, Github, Calendar } from 'lucide-react';
+import { Phone, Apple, Github } from 'lucide-react';
 import { Checkbox } from '../components/ui/checkbox';
 
 const Auth = () => {
@@ -85,7 +85,6 @@ const Auth = () => {
                   placeholder="your@email.com" 
                   required 
                   className="mb-3"
-                  isRequired={true}
                 />
               ) : (
                 <FormField 
@@ -95,7 +94,6 @@ const Auth = () => {
                   placeholder="(123) 456-7890" 
                   required 
                   className="mb-3"
-                  isRequired={true}
                 />
               )}
               <FormField 
@@ -104,7 +102,6 @@ const Auth = () => {
                 id="login-password" 
                 required 
                 className="mb-3"
-                isRequired={true}
               />
               <div className="flex justify-end mb-4">
                 <button type="button" className="text-biblebrown text-xs underline">
@@ -128,14 +125,14 @@ const Auth = () => {
               <div className="grid grid-cols-2 gap-3">
                 <button 
                   type="button"
-                  className="flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
+                  className="btn-outline flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
                 >
                   <Apple className="h-5 w-5 mr-2" />
                   <span>Apple</span>
                 </button>
                 <button 
                   type="button"
-                  className="flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
+                  className="btn-outline flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
                 >
                   <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -155,25 +152,14 @@ const Auth = () => {
                 placeholder="Your full name" 
                 required 
                 className="mb-3"
-                isRequired={true}
               />
-              <div className="mb-4">
-                <label htmlFor="signup-dob" className="block mb-1 font-medium text-biblebrown">
-                  Date of Birth <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type="date"
-                    id="signup-dob"
-                    className="input-field pr-10"
-                    required
-                    placeholder="mm/dd/yyyy"
-                  />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                    <Calendar className="h-5 w-5 text-gray-400" />
-                  </div>
-                </div>
-              </div>
+              <FormField 
+                label="Date of Birth" 
+                type="date" 
+                id="signup-dob" 
+                required 
+                className="mb-3"
+              />
               <FormField 
                 label="Email" 
                 type="email" 
@@ -181,7 +167,6 @@ const Auth = () => {
                 placeholder="your@email.com" 
                 required 
                 className="mb-3"
-                isRequired={true}
               />
               <FormField 
                 label="Password" 
@@ -189,7 +174,6 @@ const Auth = () => {
                 id="signup-password" 
                 required 
                 className="mb-4"
-                isRequired={true}
               />
               
               {/* Age verification checkbox */}
@@ -239,14 +223,14 @@ const Auth = () => {
               <div className="grid grid-cols-2 gap-3">
                 <button 
                   type="button"
-                  className="flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
+                  className="btn-outline flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
                 >
                   <Apple className="h-5 w-5 mr-2" />
                   <span>Apple</span>
                 </button>
                 <button 
                   type="button"
-                  className="flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
+                  className="btn-outline flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
                 >
                   <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />

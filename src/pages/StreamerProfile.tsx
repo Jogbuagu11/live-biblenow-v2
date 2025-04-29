@@ -1,21 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../components/Avatar';
 import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
-import DonationModal from '../components/DonationModal';
 
 const StreamerProfile = () => {
   const navigate = useNavigate();
-  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
 
   const goBack = () => {
     navigate(-1);
-  };
-
-  const handleOpenDonation = () => {
-    setIsDonationModalOpen(true);
   };
 
   return (
@@ -57,11 +51,8 @@ const StreamerProfile = () => {
             </div>
           </div>
           
-          <div className="mt-6 space-y-3">
+          <div className="mt-6">
             <Button fullWidth>Follow</Button>
-            <Button variant="secondary" fullWidth onClick={handleOpenDonation}>
-              Donate
-            </Button>
           </div>
         </div>
       </div>
@@ -112,12 +103,6 @@ const StreamerProfile = () => {
           ))}
         </div>
       </div>
-      
-      {/* Donation Modal */}
-      <DonationModal
-        isOpen={isDonationModalOpen}
-        onClose={() => setIsDonationModalOpen(false)}
-      />
       
       <BottomNavigation />
     </div>

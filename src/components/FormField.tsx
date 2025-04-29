@@ -8,7 +8,6 @@ interface FormFieldProps {
   id: string;
   required?: boolean;
   className?: string;
-  isRequired?: boolean;
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -17,14 +16,13 @@ const FormField: React.FC<FormFieldProps> = ({
   placeholder = '',
   id,
   required = false,
-  className = '',
-  isRequired = false
+  className = ''
 }) => {
   return (
     <div className={`mb-4 ${className}`}>
       <label htmlFor={id} className="block mb-1 font-medium text-biblebrown">
         {label}
-        {isRequired && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-red-500 ml-1">*</span>}
       </label>
       <input
         type={type}
