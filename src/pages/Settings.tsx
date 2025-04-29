@@ -22,6 +22,11 @@ const Settings = () => {
     navigate('/');
   };
 
+  const handleReportContent = () => {
+    // In a real app, this would open a form
+    alert('This would open a content reporting form (UI demo only)');
+  };
+
   return (
     <div className="min-h-screen bg-biblebeige pb-16">
       {/* Header */}
@@ -84,6 +89,23 @@ const Settings = () => {
           <button className="w-full py-3 text-left font-medium text-biblebrown border-t border-gray-100">
             Update Email
           </button>
+        </div>
+        
+        {/* Report Content */}
+        <div className="mb-6 bg-white rounded-xl p-4">
+          <h2 className="font-bold text-biblebrown mb-4">Report Content</h2>
+          
+          <div className="mb-4">
+            <p className="text-sm text-gray-500 mb-3">See something inappropriate? Report content that violates our community guidelines.</p>
+          </div>
+          
+          <Button 
+            onClick={handleReportContent} 
+            className="bg-biblebrown hover:bg-opacity-90 text-white" 
+            fullWidth
+          >
+            Report Content
+          </Button>
         </div>
         
         {/* Danger Zone */}
