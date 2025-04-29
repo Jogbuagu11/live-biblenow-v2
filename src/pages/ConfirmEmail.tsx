@@ -1,16 +1,8 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo';
-import Button from '../components/Button';
 
 const ConfirmEmail = () => {
-  const navigate = useNavigate();
-
-  const handleContinue = () => {
-    navigate('/setup-2fa');
-  };
-
   return (
     <div className="min-h-screen bg-biblebeige p-6 flex flex-col items-center justify-center">
       <Logo size="lg" className="mb-10" />
@@ -26,10 +18,6 @@ const ConfirmEmail = () => {
         <p className="text-gray-600 mb-8">
           We've sent a confirmation link to your email address. Please check your inbox and click the link to confirm your account.
         </p>
-        
-        <Button onClick={handleContinue} fullWidth>
-          Continue After Confirmation
-        </Button>
         
         <div className="mt-6">
           <button className="text-biblebrown underline">
