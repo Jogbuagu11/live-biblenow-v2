@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '../components/Avatar';
 import BottomNavigation from '../components/BottomNavigation';
 
 const Livestream = () => {
@@ -10,18 +9,6 @@ const Livestream = () => {
   const handleLivestreamClick = () => {
     navigate('/livestream-watch');
   };
-
-  const handleStreamerClick = () => {
-    navigate('/streamer-profile');
-  };
-
-  const streamers = [
-    { id: 1, name: "Pastor John", viewers: 1.2 },
-    { id: 2, name: "Sarah's Bible Study", viewers: 0.8 },
-    { id: 3, name: "Community Church", viewers: 2.5 },
-    { id: 4, name: "David's Corner", viewers: 0.5 },
-    { id: 5, name: "Prayer Group", viewers: 0.3 },
-  ];
 
   const livestreams = [
     { id: 1, title: "Sunday Morning Service", streamer: "Pastor John", viewers: 1200 },
@@ -44,26 +31,8 @@ const Livestream = () => {
         </button>
       </div>
       
-      {/* Featured Streamers */}
-      <div className="p-6">
-        <h2 className="text-lg font-bold mb-4">Featured Streamers</h2>
-        <div className="flex overflow-x-auto space-x-4 pb-4">
-          {streamers.map((streamer) => (
-            <div key={streamer.id} className="flex-shrink-0" onClick={handleStreamerClick}>
-              <div className="flex flex-col items-center w-20">
-                <Avatar size="lg" className="mb-2 border-2 border-biblebrown" />
-                <p className="text-sm font-medium text-center text-biblebrown truncate w-full">
-                  {streamer.name}
-                </p>
-                <p className="text-xs text-gray-500">{streamer.viewers}K viewers</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      
       {/* Current Livestreams */}
-      <div className="p-6 pt-0">
+      <div className="p-6">
         <h2 className="text-lg font-bold mb-4">Current Livestreams</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {livestreams.map((stream) => (
