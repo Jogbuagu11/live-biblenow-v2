@@ -5,9 +5,11 @@ import Logo from '../components/Logo';
 import FormField from '../components/FormField';
 import Button from '../components/Button';
 import { useIsMobile } from '../hooks/use-mobile';
+import { Phone } from 'lucide-react';
 
 const Auth = () => {
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
+  const [loginMethod, setLoginMethod] = useState<'email' | 'phone'>('email');
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
@@ -19,6 +21,10 @@ const Auth = () => {
     } else {
       navigate('/home');
     }
+  };
+
+  const toggleLoginMethod = () => {
+    setLoginMethod(loginMethod === 'email' ? 'phone' : 'email');
   };
 
   return (
@@ -56,14 +62,25 @@ const Auth = () => {
         <form onSubmit={handleSubmit} className="space-y-3">
           {activeTab === 'login' ? (
             <>
-              <FormField 
-                label="Email" 
-                type="email" 
-                id="login-email" 
-                placeholder="your@email.com" 
-                required 
-                className="mb-2"
-              />
+              {loginMethod === 'email' ? (
+                <FormField 
+                  label="Email" 
+                  type="email" 
+                  id="login-email" 
+                  placeholder="your@email.com" 
+                  required 
+                  className="mb-2"
+                />
+              ) : (
+                <FormField 
+                  label="Phone Number" 
+                  type="tel" 
+                  id="login-phone" 
+                  placeholder="(123) 456-7890" 
+                  required 
+                  className="mb-2"
+                />
+              )}
               <FormField 
                 label="Password" 
                 type="password" 
@@ -71,7 +88,15 @@ const Auth = () => {
                 required 
                 className="mb-2"
               />
-              <div className="mb-3 text-right">
+              <div className="flex justify-between items-center mb-3">
+                <button 
+                  type="button" 
+                  onClick={toggleLoginMethod}
+                  className="flex items-center text-biblebrown text-xs font-medium"
+                >
+                  <Phone size={14} className="mr-1" />
+                  {loginMethod === 'email' ? 'Use phone number instead' : 'Use email instead'}
+                </button>
                 <button type="button" className="text-biblebrown text-xs underline">
                   Forgot password?
                 </button>
