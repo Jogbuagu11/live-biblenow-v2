@@ -6,10 +6,13 @@ import FormField from '../components/FormField';
 import Button from '../components/Button';
 import { useIsMobile } from '../hooks/use-mobile';
 import { Phone, Apple, Github } from 'lucide-react';
+import { Checkbox } from '../components/ui/checkbox';
 
 const Auth = () => {
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
   const [loginMethod, setLoginMethod] = useState<'email' | 'phone'>('email');
+  const [ageVerified, setAgeVerified] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
@@ -33,9 +36,9 @@ const Auth = () => {
         <Logo size={isMobile ? "md" : "lg"} />
       </div>
       
-      <div className="bg-white rounded-xl p-4 shadow-sm flex-1 max-w-md w-full mx-auto">
+      <div className="bg-white rounded-xl p-6 shadow-sm flex-1 max-w-md w-full mx-auto">
         {/* Tab Switcher */}
-        <div className="flex border-b border-gray-200 mb-4">
+        <div className="flex border-b border-gray-200 mb-6">
           <button
             onClick={() => setActiveTab('login')}
             className={`flex-1 py-2 text-center font-medium ${
@@ -59,11 +62,11 @@ const Auth = () => {
         </div>
         
         {/* Forms */}
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {activeTab === 'login' ? (
             <>
               {/* Login Method Toggle centered above input field */}
-              <div className="flex justify-center mb-1">
+              <div className="flex justify-center mb-2">
                 <button 
                   type="button" 
                   onClick={toggleLoginMethod}
@@ -81,7 +84,7 @@ const Auth = () => {
                   id="login-email" 
                   placeholder="your@email.com" 
                   required 
-                  className="mb-2"
+                  className="mb-3"
                 />
               ) : (
                 <FormField 
@@ -90,7 +93,7 @@ const Auth = () => {
                   id="login-phone" 
                   placeholder="(123) 456-7890" 
                   required 
-                  className="mb-2"
+                  className="mb-3"
                 />
               )}
               <FormField 
@@ -98,9 +101,9 @@ const Auth = () => {
                 type="password" 
                 id="login-password" 
                 required 
-                className="mb-2"
+                className="mb-3"
               />
-              <div className="flex justify-end mb-3">
+              <div className="flex justify-end mb-4">
                 <button type="button" className="text-biblebrown text-xs underline">
                   Forgot password?
                 </button>
@@ -110,7 +113,7 @@ const Auth = () => {
               </Button>
               
               {/* Social login options */}
-              <div className="relative my-4 text-center">
+              <div className="relative my-5 text-center">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300"></div>
                 </div>
@@ -148,14 +151,14 @@ const Auth = () => {
                 id="signup-name" 
                 placeholder="Your full name" 
                 required 
-                className="mb-2"
+                className="mb-3"
               />
               <FormField 
                 label="Date of Birth" 
                 type="date" 
                 id="signup-dob" 
                 required 
-                className="mb-2"
+                className="mb-3"
               />
               <FormField 
                 label="Email" 
@@ -163,21 +166,52 @@ const Auth = () => {
                 id="signup-email" 
                 placeholder="your@email.com" 
                 required 
-                className="mb-2"
+                className="mb-3"
               />
               <FormField 
                 label="Password" 
                 type="password" 
                 id="signup-password" 
                 required 
-                className="mb-2"
+                className="mb-4"
               />
+              
+              {/* Age verification checkbox */}
+              <div className="flex items-start space-x-2 mb-3">
+                <Checkbox 
+                  id="age-verification" 
+                  checked={ageVerified}
+                  onCheckedChange={(checked) => setAgeVerified(checked as boolean)} 
+                />
+                <label 
+                  htmlFor="age-verification"
+                  className="text-sm text-gray-700 leading-tight"
+                >
+                  I am at least 13 years of age
+                </label>
+              </div>
+              
+              {/* Terms and conditions checkbox */}
+              <div className="flex items-start space-x-2 mb-4">
+                <Checkbox 
+                  id="terms-conditions" 
+                  checked={termsAccepted}
+                  onCheckedChange={(checked) => setTermsAccepted(checked as boolean)} 
+                />
+                <label 
+                  htmlFor="terms-conditions"
+                  className="text-sm text-gray-700 leading-tight"
+                >
+                  I agree to <a href="https://terms.biblenow.io" target="_blank" rel="noopener noreferrer" className="text-biblebrown underline">Terms and Conditions</a> and <a href="https://policy.biblenow.io" target="_blank" rel="noopener noreferrer" className="text-biblebrown underline">Privacy Policy</a>
+                </label>
+              </div>
+              
               <Button type="submit" fullWidth>
                 Create Account
               </Button>
               
               {/* Social signup options */}
-              <div className="relative my-4 text-center">
+              <div className="relative my-5 text-center">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300"></div>
                 </div>
