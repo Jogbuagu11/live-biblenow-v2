@@ -75,31 +75,31 @@
   }
   
   body {
-    @apply bg-biblebeige text-biblebrown font-inter;
+    @apply bg-background text-foreground font-inter;
   }
   
   /* Custom styles */
   .btn-primary {
-    @apply bg-biblebrown text-white hover:bg-opacity-90 transition-all rounded-full py-2 px-6 font-medium;
+    @apply bg-primary text-primary-foreground hover:bg-opacity-90 transition-all rounded-full py-2 px-6 font-medium;
   }
   
   .btn-secondary {
-    @apply bg-biblegold text-biblebrown hover:bg-opacity-90 transition-all rounded-full py-2 px-6 font-medium;
+    @apply bg-secondary text-secondary-foreground hover:bg-opacity-90 transition-all rounded-full py-2 px-6 font-medium;
   }
   
   .btn-outline {
-    @apply border-2 border-biblebrown text-biblebrown hover:bg-biblebrown hover:text-white transition-all rounded-full py-2 px-6 font-medium;
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all rounded-full py-2 px-6 font-medium;
   }
   
   .input-field {
-    @apply bg-white border border-biblebrown/20 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-biblegold;
+    @apply bg-background border border-input rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-ring;
   }
   
   .chat-bubble {
-    @apply bg-white p-3 rounded-xl shadow-sm max-w-[80%] mb-2;
+    @apply bg-card p-3 rounded-xl shadow-sm max-w-[80%] mb-2 text-card-foreground;
   }
   
   .chat-bubble-own {
-    @apply bg-biblegold/20 p-3 rounded-xl shadow-sm max-w-[80%] mb-2 ml-auto;
+    @apply bg-accent/20 p-3 rounded-xl shadow-sm max-w-[80%] mb-2 ml-auto text-foreground;
   }
 }
