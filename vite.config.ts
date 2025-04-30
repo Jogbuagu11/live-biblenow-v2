@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => ({
     componentTagger(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['/lovable-uploads/d5a19a0d-a447-4228-8d0b-0c537b5fe56f.png'],
+      includeAssets: ['/icon-192x192.png', '/icon-512x512.png'],
       manifest: {
         name: 'BibleNOW',
         short_name: 'BibleNOW',
@@ -25,14 +25,16 @@ export default defineConfig(({ mode }) => ({
         theme_color: '#1e293b',
         icons: [
           {
-            src: '/lovable-uploads/d5a19a0d-a447-4228-8d0b-0c537b5fe56f.png',
+            src: '/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: "any maskable"
           },
           {
-            src: '/lovable-uploads/d5a19a0d-a447-4228-8d0b-0c537b5fe56f.png',
+            src: '/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
+            purpose: "any maskable"
           }
         ]
       }

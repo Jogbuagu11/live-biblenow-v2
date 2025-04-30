@@ -6,7 +6,8 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/lovable-uploads/d5a19a0d-a447-4228-8d0b-0c537b5fe56f.png'
+  '/icon-192x192.png',
+  '/icon-512x512.png'
 ];
 
 // Install event - cache essential files
