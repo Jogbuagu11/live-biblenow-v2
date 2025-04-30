@@ -31,22 +31,22 @@ const LivestreamWatch = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-biblebeige pb-16">
+    <div className="min-h-screen bg-background pb-16">
       {/* Live Video Player */}
       <div className="bg-black aspect-video w-full flex items-center justify-center">
         <span className="text-white">Live Video Feed</span>
       </div>
       
       {/* Stream Info */}
-      <div className="p-4 bg-white">
-        <h1 className="font-bold text-lg text-biblebrown">Sunday Morning Service</h1>
+      <div className="p-4 bg-card">
+        <h1 className="font-bold text-lg text-foreground">Sunday Morning Service</h1>
         
         <div className="flex justify-between items-center mt-2">
           <div className="flex items-center space-x-2" onClick={handleStreamerClick}>
             <Avatar size="sm" />
             <div>
-              <p className="font-medium text-sm">Pastor John</p>
-              <p className="text-xs text-gray-500">2.5K watching</p>
+              <p className="font-medium text-sm text-foreground">Pastor John</p>
+              <p className="text-xs text-muted-foreground">2.5K watching</p>
             </div>
           </div>
           
@@ -58,11 +58,11 @@ const LivestreamWatch = () => {
       
       {/* Chat Section */}
       <div className="p-4">
-        <div className="bg-white rounded-t-xl p-3 border-b border-gray-200">
-          <h2 className="font-bold text-biblebrown">Live Chat</h2>
+        <div className="bg-card rounded-t-xl p-3 border-b border-border">
+          <h2 className="font-bold text-foreground">Live Chat</h2>
         </div>
         
-        <div className="bg-white h-64 overflow-y-auto p-3">
+        <div className="bg-card h-64 overflow-y-auto p-3">
           {chatMessages.map((msg) => (
             <div key={msg.id} className={`flex mb-3 ${msg.isOwn ? 'justify-end' : ''}`}>
               {!msg.isOwn && <Avatar size="sm" className="mr-2" />}
@@ -74,7 +74,7 @@ const LivestreamWatch = () => {
           ))}
         </div>
         
-        <form onSubmit={handleSendMessage} className="bg-white rounded-b-xl p-3 flex">
+        <form onSubmit={handleSendMessage} className="bg-card rounded-b-xl p-3 flex">
           <input
             type="text"
             className="input-field flex-1 mr-2"
@@ -84,7 +84,7 @@ const LivestreamWatch = () => {
           />
           <button 
             type="submit" 
-            className="bg-biblebrown text-white rounded-full w-10 h-10 flex items-center justify-center"
+            className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex items-center justify-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />

@@ -20,11 +20,11 @@ const Livestream = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-biblebeige pb-16">
+    <div className="min-h-screen bg-background pb-16">
       {/* Header */}
-      <div className="bg-white p-6 shadow-sm flex justify-between items-center">
-        <h1 className="text-xl font-bold text-biblebrown">Livestreams</h1>
-        <button className="text-biblebrown">
+      <div className="bg-card p-6 shadow-sm flex justify-between items-center">
+        <h1 className="text-xl font-bold text-foreground">Livestreams</h1>
+        <button className="text-foreground">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -33,26 +33,26 @@ const Livestream = () => {
       
       {/* Current Livestreams */}
       <div className="p-6">
-        <h2 className="text-lg font-bold mb-4">Current Livestreams</h2>
+        <h2 className="text-lg font-bold mb-4 text-foreground">Current Livestreams</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {livestreams.map((stream) => (
             <div 
               key={stream.id} 
-              className="bg-white rounded-xl overflow-hidden shadow-sm" 
+              className="bg-card rounded-xl overflow-hidden shadow-sm" 
               onClick={handleLivestreamClick}
             >
-              <div className="h-40 bg-gray-200 relative flex items-center justify-center">
-                <span className="text-gray-400">Livestream Thumbnail</span>
-                <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
+              <div className="h-40 bg-muted relative flex items-center justify-center">
+                <span className="text-muted-foreground">Livestream Thumbnail</span>
+                <div className="absolute top-2 right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full">
                   LIVE
                 </div>
-                <div className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                <div className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-foreground text-xs px-2 py-1 rounded">
                   {stream.viewers.toLocaleString()} viewers
                 </div>
               </div>
               <div className="p-3">
-                <h3 className="font-semibold text-biblebrown">{stream.title}</h3>
-                <p className="text-sm text-gray-600">{stream.streamer}</p>
+                <h3 className="font-semibold text-foreground">{stream.title}</h3>
+                <p className="text-sm text-muted-foreground">{stream.streamer}</p>
               </div>
             </div>
           ))}

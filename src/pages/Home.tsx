@@ -22,14 +22,14 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-biblebeige pb-16">
+    <div className="min-h-screen bg-background pb-16">
       {/* Header */}
-      <div className="bg-white p-6 shadow-sm">
+      <div className="bg-card p-6 shadow-sm">
         <Logo size="lg" className="mx-auto" />
       </div>
       
       {/* Welcome Banner */}
-      <div className="bg-biblebrown text-white p-6 flex flex-col items-center">
+      <div className="bg-primary text-primary-foreground p-6 flex flex-col items-center">
         <h1 className="text-2xl font-bold mb-3">Welcome to BibleNOW</h1>
         <p className="text-center mb-4">Your gateway to spiritual livestreams</p>
         <Button variant="secondary" className="mt-2">
@@ -39,16 +39,16 @@ const Home = () => {
       
       {/* Featured Streamers */}
       <div className="p-6">
-        <h2 className="text-lg font-bold mb-4">Featured Streamers</h2>
+        <h2 className="text-lg font-bold mb-4 text-foreground">Featured Streamers</h2>
         <div className="flex overflow-x-auto space-x-4 pb-4">
           {streamers.map((streamer) => (
             <div key={streamer.id} className="flex-shrink-0" onClick={handleStreamerClick}>
               <div className="flex flex-col items-center w-20">
-                <Avatar size="lg" className="mb-2 border-2 border-biblebrown" />
-                <p className="text-sm font-medium text-center text-biblebrown truncate w-full">
+                <Avatar size="lg" className="mb-2 border-2 border-primary" />
+                <p className="text-sm font-medium text-center text-foreground truncate w-full">
                   {streamer.name}
                 </p>
-                <p className="text-xs text-gray-500">{streamer.viewers}K viewers</p>
+                <p className="text-xs text-muted-foreground">{streamer.viewers}K viewers</p>
               </div>
             </div>
           ))}
@@ -57,43 +57,43 @@ const Home = () => {
       
       {/* Featured Content */}
       <div className="p-6">
-        <h2 className="text-xl font-bold mb-4">Featured Sections</h2>
+        <h2 className="text-xl font-bold mb-4 text-foreground">Featured Sections</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Featured Card 1 */}
-          <div className="bg-white rounded-xl p-4 shadow-sm">
-            <div className="rounded-lg h-32 bg-gray-200 mb-4 flex items-center justify-center">
-              <span className="text-gray-400">Thumbnail</span>
+          <div className="bg-card rounded-xl p-4 shadow-sm">
+            <div className="rounded-lg h-32 bg-muted mb-4 flex items-center justify-center">
+              <span className="text-muted-foreground">Thumbnail</span>
             </div>
-            <h3 className="font-semibold mb-1">Daily Devotionals</h3>
-            <p className="text-sm text-gray-600">Start your day with inspiring devotionals</p>
+            <h3 className="font-semibold mb-1 text-foreground">Daily Devotionals</h3>
+            <p className="text-sm text-muted-foreground">Start your day with inspiring devotionals</p>
           </div>
           
           {/* Featured Card 2 */}
-          <div className="bg-white rounded-xl p-4 shadow-sm">
-            <div className="rounded-lg h-32 bg-gray-200 mb-4 flex items-center justify-center">
-              <span className="text-gray-400">Thumbnail</span>
+          <div className="bg-card rounded-xl p-4 shadow-sm">
+            <div className="rounded-lg h-32 bg-muted mb-4 flex items-center justify-center">
+              <span className="text-muted-foreground">Thumbnail</span>
             </div>
-            <h3 className="font-semibold mb-1">Community Groups</h3>
-            <p className="text-sm text-gray-600">Connect with believers worldwide</p>
+            <h3 className="font-semibold mb-1 text-foreground">Community Groups</h3>
+            <p className="text-sm text-muted-foreground">Connect with believers worldwide</p>
           </div>
           
           {/* Featured Card 3 */}
-          <div className="bg-white rounded-xl p-4 shadow-sm">
-            <div className="rounded-lg h-32 bg-gray-200 mb-4 flex items-center justify-center">
-              <span className="text-gray-400">Thumbnail</span>
+          <div className="bg-card rounded-xl p-4 shadow-sm">
+            <div className="rounded-lg h-32 bg-muted mb-4 flex items-center justify-center">
+              <span className="text-muted-foreground">Thumbnail</span>
             </div>
-            <h3 className="font-semibold mb-1">Bible Studies</h3>
-            <p className="text-sm text-gray-600">Deep dive into scripture with expert teachers</p>
+            <h3 className="font-semibold mb-1 text-foreground">Bible Studies</h3>
+            <p className="text-sm text-muted-foreground">Deep dive into scripture with expert teachers</p>
           </div>
           
           {/* Featured Card 4 */}
-          <div className="bg-white rounded-xl p-4 shadow-sm">
-            <div className="rounded-lg h-32 bg-gray-200 mb-4 flex items-center justify-center">
-              <span className="text-gray-400">Thumbnail</span>
+          <div className="bg-card rounded-xl p-4 shadow-sm">
+            <div className="rounded-lg h-32 bg-muted mb-4 flex items-center justify-center">
+              <span className="text-muted-foreground">Thumbnail</span>
             </div>
-            <h3 className="font-semibold mb-1">Upcoming Events</h3>
-            <p className="text-sm text-gray-600">Stay updated on special livestreams</p>
+            <h3 className="font-semibold mb-1 text-foreground">Upcoming Events</h3>
+            <p className="text-sm text-muted-foreground">Stay updated on special livestreams</p>
           </div>
         </div>
       </div>
