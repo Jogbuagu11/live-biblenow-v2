@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => ({
       manifest: {
         name: 'BibleNOW',
         short_name: 'BibleNOW',
-        description: 'A modern Bible livestream platform',
+        description: 'Faith comes by streaming and streaming.',
         theme_color: '#1e293b',
         icons: [
           {
