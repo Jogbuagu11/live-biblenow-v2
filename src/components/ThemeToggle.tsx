@@ -1,5 +1,5 @@
 
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "../components/ThemeProvider";
 import { Switch } from "@/components/ui/switch";
 
 interface ThemeToggleProps {
