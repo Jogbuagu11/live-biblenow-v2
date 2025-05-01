@@ -1,20 +1,76 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '../components/Avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
+import EditProfileDialog from '../components/EditProfileDialog';
+import { toast } from "@/hooks/use-toast";
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2 } from 'lucide-react';
+
+interface ProfileData {
+  id: string;
+  bio: string | null;
+  avatar_url: string | null;
+}
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+
+  // Fetch user profile data
+  const fetchProfile = async () => {
+    try {
+      setLoading(true);
+      
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session?.user) {
+        navigate('/auth');
+        return;
+      }
+      
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, bio, avatar_url')
+        .eq('id', session.user.id)
+        .single();
+        
+      if (error) {
+        console.error('Error fetching profile:', error);
+        return;
+      }
+      
+      setProfile(data);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, [navigate]);
 
   const handleEditProfile = () => {
-    // In a real app, this would navigate to edit profile
+    setDialogOpen(true);
   };
 
   const handleSettingsClick = () => {
     navigate('/settings');
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-16">
@@ -31,7 +87,13 @@ const Profile = () => {
       
       {/* Profile Info */}
       <div className="bg-card p-6 flex flex-col items-center">
-        <Avatar size="xl" className="mb-4" />
+        <Avatar size="xl" className="mb-4">
+          {profile?.avatar_url ? (
+            <AvatarImage src={profile.avatar_url} alt="Profile picture" />
+          ) : (
+            <AvatarFallback className="text-3xl font-medium">JD</AvatarFallback>
+          )}
+        </Avatar>
         <h2 className="text-xl font-bold text-foreground">John Doe</h2>
         <p className="text-muted-foreground mb-6">Joined April 2023</p>
         
@@ -58,7 +120,9 @@ const Profile = () => {
       {/* Bio */}
       <div className="m-4 p-4 bg-card rounded-xl">
         <h3 className="font-bold text-foreground mb-2">Bio</h3>
-        <p className="text-muted-foreground">I'm passionate about studying the Bible and connecting with fellow believers through livestreams. Looking forward to growing in faith together!</p>
+        <p className="text-muted-foreground">
+          {profile?.bio || "I'm passionate about studying the Bible and connecting with fellow believers through livestreams. Looking forward to growing in faith together!"}
+        </p>
       </div>
       
       {/* Recent Activity */}
@@ -85,6 +149,17 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      
+      {/* Edit Profile Dialog */}
+      {profile && (
+        <EditProfileDialog 
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          currentBio={profile.bio || ''}
+          currentAvatar={profile.avatar_url}
+          onProfileUpdated={fetchProfile}
+        />
+      )}
       
       <BottomNavigation />
     </div>
