@@ -45,8 +45,11 @@ const Profile = () => {
       }
       
       if (data) {
-        // Ensure we're setting a compatible type
-        setProfile(data as ProfileData);
+        setProfile({
+          id: data.id,
+          bio: data.bio,
+          avatar_url: data.avatar_url
+        });
       }
     } catch (error) {
       console.error('Error:', error);
