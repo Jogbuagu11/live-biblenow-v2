@@ -1,34 +1,15 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { useTheme } from '../components/ThemeProvider';
-import { ChangePasswordForm } from '../components/ChangePasswordForm';
-import { UpdateEmailForm } from '../components/UpdateEmailForm';
-import { supabase } from "@/integrations/supabase/client";
 
 const Settings = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [twoFA, setTwoFA] = useState(false);
-  const [currentUser, setCurrentUser] = useState<any>(null);
-  
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        navigate('/auth');
-        return;
-      }
-      
-      setCurrentUser(user);
-    };
-    
-    checkAuth();
-  }, [navigate]);
   
   const goBack = () => {
     navigate(-1);
@@ -39,8 +20,7 @@ const Settings = () => {
     alert('This would delete your account (UI demo only)');
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
     navigate('/');
   };
 
@@ -63,14 +43,6 @@ const Settings = () => {
       
       {/* Settings Sections */}
       <div className="p-4">
-        {/* User Email Information */}
-        {currentUser && (
-          <div className="mb-6 bg-card rounded-xl p-4">
-            <h2 className="font-bold text-foreground mb-2">Account</h2>
-            <p className="text-sm text-muted-foreground">Signed in as: {currentUser.email}</p>
-          </div>
-        )}
-        
         {/* Appearance */}
         <div className="mb-6 bg-card rounded-xl p-4">
           <h2 className="font-bold text-foreground mb-4">Appearance</h2>
@@ -82,18 +54,6 @@ const Settings = () => {
             </div>
             <ThemeToggle />
           </div>
-        </div>
-
-        {/* Update Email */}
-        <div className="mb-6 bg-card rounded-xl p-4">
-          <h2 className="font-bold text-foreground mb-4">Update Email Address</h2>
-          <UpdateEmailForm />
-        </div>
-        
-        {/* Change Password */}
-        <div className="mb-6 bg-card rounded-xl p-4">
-          <h2 className="font-bold text-foreground mb-4">Change Password</h2>
-          <ChangePasswordForm />
         </div>
         
         {/* Security */}
@@ -115,6 +75,14 @@ const Settings = () => {
               <div className="w-11 h-6 bg-muted peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-secondary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-background after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border-muted-foreground after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
             </label>
           </div>
+          
+          <button className="w-full py-3 text-left font-medium text-foreground border-t border-border">
+            Change Password
+          </button>
+          
+          <button className="w-full py-3 text-left font-medium text-foreground border-t border-border">
+            Update Email
+          </button>
         </div>
         
         {/* Report Content */}

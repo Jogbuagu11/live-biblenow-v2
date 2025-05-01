@@ -31,20 +31,20 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col p-4">
+    <div className="min-h-screen bg-biblebeige flex flex-col p-4">
       <div className="mx-auto mb-4 mt-4">
         <Logo size={isMobile ? "md" : "lg"} />
       </div>
       
-      <div className="bg-card rounded-xl p-6 shadow-sm flex-1 max-w-md w-full mx-auto">
+      <div className="bg-white rounded-xl p-6 shadow-sm flex-1 max-w-md w-full mx-auto">
         {/* Tab Switcher */}
-        <div className="flex border-b border-border mb-6">
+        <div className="flex border-b border-gray-200 mb-6">
           <button
             onClick={() => setActiveTab('login')}
             className={`flex-1 py-2 text-center font-medium ${
               activeTab === 'login'
-                ? 'border-b-2 border-primary text-primary'
-                : 'text-muted-foreground'
+                ? 'border-b-2 border-biblebrown text-biblebrown'
+                : 'text-gray-500'
             }`}
           >
             Login
@@ -53,8 +53,8 @@ const Auth = () => {
             onClick={() => setActiveTab('signup')}
             className={`flex-1 py-2 text-center font-medium ${
               activeTab === 'signup'
-                ? 'border-b-2 border-primary text-primary'
-                : 'text-muted-foreground'
+                ? 'border-b-2 border-biblebrown text-biblebrown'
+                : 'text-gray-500'
             }`}
           >
             Signup
@@ -70,7 +70,7 @@ const Auth = () => {
                 <button 
                   type="button" 
                   onClick={toggleLoginMethod}
-                  className="flex items-center text-primary text-xs font-medium"
+                  className="flex items-center text-biblebrown text-xs font-medium"
                 >
                   <Phone size={14} className="mr-1" />
                   {loginMethod === 'email' ? 'Use phone number' : 'Use email'}
@@ -104,7 +104,7 @@ const Auth = () => {
                 className="mb-3"
               />
               <div className="flex justify-end mb-4">
-                <button type="button" className="text-primary text-xs underline">
+                <button type="button" className="text-biblebrown text-xs underline">
                   Forgot password?
                 </button>
               </div>
@@ -115,24 +115,24 @@ const Auth = () => {
               {/* Social login options */}
               <div className="relative my-5 text-center">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-border"></div>
+                  <div className="w-full border-t border-gray-300"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-card text-muted-foreground">Or continue with</span>
+                  <span className="px-2 bg-white text-gray-500">Or continue with</span>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-3">
                 <button 
                   type="button"
-                  className="btn-outline flex justify-center items-center py-2.5 border border-primary rounded-md hover:bg-muted"
+                  className="btn-outline flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
                 >
                   <Apple className="h-5 w-5 mr-2" />
                   <span>Apple</span>
                 </button>
                 <button 
                   type="button"
-                  className="btn-outline flex justify-center items-center py-2.5 border border-primary rounded-md hover:bg-muted"
+                  className="btn-outline flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
                 >
                   <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -185,7 +185,7 @@ const Auth = () => {
                 />
                 <label 
                   htmlFor="age-verification"
-                  className="text-sm text-foreground leading-tight"
+                  className="text-sm text-gray-700 leading-tight"
                 >
                   I am at least 13 years of age
                 </label>
@@ -200,9 +200,9 @@ const Auth = () => {
                 />
                 <label 
                   htmlFor="terms-conditions"
-                  className="text-sm text-foreground leading-tight"
+                  className="text-sm text-gray-700 leading-tight"
                 >
-                  I agree to <a href="https://terms.biblenow.io" target="_blank" rel="noopener noreferrer" className="text-primary underline">Terms and Conditions</a> and <a href="https://policy.biblenow.io" target="_blank" rel="noopener noreferrer" className="text-primary underline">Privacy Policy</a>
+                  I agree to <a href="https://terms.biblenow.io" target="_blank" rel="noopener noreferrer" className="text-biblebrown underline">Terms and Conditions</a> and <a href="https://policy.biblenow.io" target="_blank" rel="noopener noreferrer" className="text-biblebrown underline">Privacy Policy</a>
                 </label>
               </div>
               
@@ -213,24 +213,24 @@ const Auth = () => {
               {/* Social signup options */}
               <div className="relative my-5 text-center">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-border"></div>
+                  <div className="w-full border-t border-gray-300"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-card text-muted-foreground">Or continue with</span>
+                  <span className="px-2 bg-white text-gray-500">Or continue with</span>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-3">
                 <button 
                   type="button"
-                  className="btn-outline flex justify-center items-center py-2.5 border border-primary rounded-md hover:bg-muted"
+                  className="btn-outline flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
                 >
                   <Apple className="h-5 w-5 mr-2" />
                   <span>Apple</span>
                 </button>
                 <button 
                   type="button"
-                  className="btn-outline flex justify-center items-center py-2.5 border border-primary rounded-md hover:bg-muted"
+                  className="btn-outline flex justify-center items-center py-2.5 border border-biblegold rounded-md hover:bg-gray-50"
                 >
                   <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />

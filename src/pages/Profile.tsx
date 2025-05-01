@@ -31,7 +31,7 @@ const Profile = () => {
       
       {/* Profile Info */}
       <div className="bg-card p-6 flex flex-col items-center">
-        <Avatar className="mb-4" />
+        <Avatar size="xl" className="mb-4" />
         <h2 className="text-xl font-bold text-foreground">John Doe</h2>
         <p className="text-muted-foreground mb-6">Joined April 2023</p>
         
