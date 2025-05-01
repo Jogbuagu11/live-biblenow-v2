@@ -44,13 +44,7 @@ const Profile = () => {
         return;
       }
       
-      if (data) {
-        setProfile({
-          id: data.id,
-          bio: data.bio,
-          avatar_url: data.avatar_url
-        });
-      }
+      setProfile(data);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -93,7 +87,7 @@ const Profile = () => {
       
       {/* Profile Info */}
       <div className="bg-card p-6 flex flex-col items-center">
-        <Avatar className="h-24 w-24 mb-4">
+        <Avatar size="xl" className="mb-4">
           {profile?.avatar_url ? (
             <AvatarImage src={profile.avatar_url} alt="Profile picture" />
           ) : (
