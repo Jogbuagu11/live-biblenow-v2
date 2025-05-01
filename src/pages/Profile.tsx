@@ -44,7 +44,10 @@ const Profile = () => {
         return;
       }
       
-      setProfile(data as ProfileData);
+      if (data) {
+        // Ensure we're setting a compatible type
+        setProfile(data as ProfileData);
+      }
     } catch (error) {
       console.error('Error:', error);
     } finally {
