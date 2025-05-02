@@ -1,4 +1,5 @@
 
+
 -- Create storage bucket for profile photos
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('profiles', 'Profile Photos', true)
@@ -20,3 +21,4 @@ USING (bucket_id = 'profiles' AND auth.uid() = owner);
 CREATE POLICY "Users can delete their own profile photos"
 ON storage.objects FOR DELETE
 USING (bucket_id = 'profiles' AND auth.uid() = owner);
+
