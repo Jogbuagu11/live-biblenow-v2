@@ -1,91 +1,30 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '../components/BottomNavigation';
 import Avatar from '../components/Avatar';
 import { Button } from '@/components/ui/button';
 import HeaderBar from '@/components/HeaderBar';
 import EditProfileModal from '../components/EditProfileModal';
-import { supabase } from '../integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { User } from '@supabase/supabase-js';
 
 const Profile = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userProfile, setUserProfile] = useState({
-    bio: '',
+    bio: "I'm passionate about studying the Bible and connecting with fellow believers through livestreams. Looking forward to growing in faith together!",
     profileImageUrl: '/placeholder.svg',
-    isLoading: true,
+    isLoading: false,
     username: 'John Doe'
   });
-  const [user, setUser] = useState<User | null>(null);
 
   const handleSettingsClick = () => {
     navigate('/settings');
   };
 
-  // Fetch user and profile data
-  useEffect(() => {
-    const fetchUserAndProfile = async () => {
-      try {
-        // Get current user
-        const { data: { user } } = await supabase.auth.getUser();
-        
-        if (user) {
-          setUser(user);
-          
-          // Get profile data
-          const { data: profile, error } = await supabase
-            .from('profiles')
-            .select('bio, profile_photo_url, username')
-            .eq('id', user.id)
-            .single();
-          
-          if (error && error.code !== 'PGRST116') {
-            throw error;
-          }
-          
-          if (profile) {
-            setUserProfile({
-              bio: profile.bio || '',
-              profileImageUrl: profile.profile_photo_url || '/placeholder.svg',
-              isLoading: false,
-              username: profile.username || user.email?.split('@')[0] || 'User'
-            });
-          } else {
-            setUserProfile(prev => ({ 
-              ...prev, 
-              isLoading: false,
-              username: user.email?.split('@')[0] || 'User'
-            }));
-          }
-        } else {
-          setUserProfile(prev => ({ ...prev, isLoading: false }));
-          toast({
-            title: "Authentication Required",
-            description: "Please sign in to view your profile",
-            variant: "destructive"
-          });
-          navigate('/auth');
-        }
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to load profile data',
-          variant: 'destructive'
-        });
-        setUserProfile(prev => ({ ...prev, isLoading: false }));
-      }
-    };
-
-    fetchUserAndProfile();
-  }, [toast, navigate]);
-
   const handleEditProfile = () => {
-    console.log("Edit profile button clicked"); // Debug log
+    console.log("Edit profile button clicked");
     setIsEditModalOpen(true);
   };
 
@@ -141,7 +80,7 @@ const Profile = () => {
       <div className="m-4 p-4 bg-card rounded-xl">
         <h3 className="font-bold text-foreground mb-2">Bio</h3>
         <p className="text-muted-foreground">
-          {userProfile.bio || "I'm passionate about studying the Bible and connecting with fellow believers through livestreams. Looking forward to growing in faith together!"}
+          {userProfile.bio}
         </p>
       </div>
       
