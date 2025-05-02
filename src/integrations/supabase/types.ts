@@ -1407,6 +1407,51 @@ export type Database = {
         }
         Relationships: []
       }
+      streamer_viewer_invites: {
+        Row: {
+          accepted: boolean | null
+          accepted_at: string | null
+          id: string
+          sent_at: string | null
+          stream_id: string | null
+          streamer_id: string | null
+          viewer_email: string
+        }
+        Insert: {
+          accepted?: boolean | null
+          accepted_at?: string | null
+          id?: string
+          sent_at?: string | null
+          stream_id?: string | null
+          streamer_id?: string | null
+          viewer_email: string
+        }
+        Update: {
+          accepted?: boolean | null
+          accepted_at?: string | null
+          id?: string
+          sent_at?: string | null
+          stream_id?: string | null
+          streamer_id?: string | null
+          viewer_email?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "streamer_viewer_invites_stream_id_fkey"
+            columns: ["stream_id"]
+            isOneToOne: false
+            referencedRelation: "livestreams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "streamer_viewer_invites_streamer_id_fkey"
+            columns: ["streamer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       streams: {
         Row: {
           created_at: string | null

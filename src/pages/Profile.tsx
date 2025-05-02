@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '../components/Avatar';
-import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
+import Avatar from '../components/Avatar';
+import { Button } from '@/components/ui/button';
+import HeaderBar from '@/components/HeaderBar';
 import EditProfileModal from '../components/EditProfileModal';
 import { supabase } from '../integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';

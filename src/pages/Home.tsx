@@ -1,10 +1,8 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../components/Logo';
 import BottomNavigation from '../components/BottomNavigation';
-import Button from '../components/Button';
-import Avatar from '../components/Avatar';
+import HeaderBar from '@/components/HeaderBar';
+import { supabase } from '@/integrations/supabase/client';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -25,7 +23,7 @@ const Home = () => {
     <div className="min-h-screen bg-background pb-16">
       {/* Header */}
       <div className="bg-card p-6 shadow-sm">
-        <Logo size="lg" className="mx-auto" />
+        <HeaderBar />
       </div>
       
       {/* Welcome Banner */}
