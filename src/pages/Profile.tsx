@@ -1,122 +1,80 @@
-
-import React, { useState } from 'react';
+// src/pages/Profile.tsx
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '../components/BottomNavigation';
 import Avatar from '../components/Avatar';
 import { Button } from '@/components/ui/button';
 import HeaderBar from '@/components/HeaderBar';
 import EditProfileModal from '../components/EditProfileModal';
+import { supabase } from '../integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { User } from '@supabase/supabase-js';
 
 const Profile = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userProfile, setUserProfile] = useState({
-    bio: "I'm passionate about studying the Bible and connecting with fellow believers through livestreams. Looking forward to growing in faith together!",
+    bio: "I'm passionate about studying the Bible and connecting with fellow believers.",
     profileImageUrl: '/placeholder.svg',
     isLoading: false,
-    username: 'John Doe'
+    username: 'Demo User'
   });
+  const [user, setUser] = useState<User | null>(null);
 
-  const handleSettingsClick = () => {
-    navigate('/settings');
-  };
+  useEffect(() => {
+    const fetchUserAndProfile = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          setUser(user);
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('bio, profile_photo_url, username')
+            .eq('id', user.id)
+            .single();
+          if (!error && profile) {
+            setUserProfile({
+              bio: profile.bio || '',
+              profileImageUrl: profile.profile_photo_url || '/placeholder.svg',
+              isLoading: false,
+              username: profile.username || user.email?.split('@')[0] || 'User'
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Error loading profile:', err);
+      }
+    };
+    fetchUserAndProfile();
+  }, []);
 
   const handleEditProfile = () => {
-    console.log("Edit profile button clicked");
     setIsEditModalOpen(true);
   };
 
-  const handleProfileUpdated = (newBio, newImageUrl) => {
-    setUserProfile({
-      ...userProfile,
+  const handleProfileUpdated = (newBio: string, newImageUrl: string) => {
+    setUserProfile(prev => ({
+      ...prev,
       bio: newBio,
       profileImageUrl: newImageUrl,
-      isLoading: false
-    });
-    
-    toast({
-      title: "Profile Updated",
-      description: "Your profile has been successfully updated."
-    });
+    }));
   };
 
   return (
     <div className="min-h-screen bg-background pb-16">
-      {/* Header */}
-      <div className="bg-card p-6 shadow-sm flex justify-between items-center">
-        <h1 className="text-xl font-bold text-foreground">Profile</h1>
-        <button onClick={handleSettingsClick}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </button>
-      </div>
-      
-      {/* Profile Info */}
+      <HeaderBar title="Profile" onSettingsClick={() => navigate('/settings')} />
       <div className="bg-card p-6 flex flex-col items-center">
         <Avatar src={userProfile.profileImageUrl} size="xl" className="mb-4" />
-        <h2 className="text-xl font-bold text-foreground">{userProfile.username}</h2>
+        <h2 className="text-xl font-bold">{userProfile.username}</h2>
         <p className="text-muted-foreground mb-6">Joined April 2023</p>
-        
-        <div className="flex justify-around w-full mb-4">
-          <div className="text-center">
-            <p className="font-bold text-foreground">12</p>
-            <p className="text-xs text-muted-foreground">Following</p>
-          </div>
-          <div className="text-center">
-            <p className="font-bold text-foreground">142</p>
-            <p className="text-xs text-muted-foreground">Watched</p>
-          </div>
-          <div className="text-center">
-            <p className="font-bold text-foreground">38h</p>
-            <p className="text-xs text-muted-foreground">Total Time</p>
-          </div>
-        </div>
-        
-        <Button onClick={handleEditProfile} variant="outline" className="w-full">
-          Edit Profile
-        </Button>
+        <Button onClick={handleEditProfile} variant="outline" className="w-full">Edit Profile</Button>
       </div>
-      
-      {/* Bio */}
       <div className="m-4 p-4 bg-card rounded-xl">
         <h3 className="font-bold text-foreground mb-2">Bio</h3>
-        <p className="text-muted-foreground">
-          {userProfile.bio}
-        </p>
+        <p className="text-muted-foreground">{userProfile.bio}</p>
       </div>
-      
-      {/* Recent Activity */}
-      <div className="m-4 p-4 bg-card rounded-xl">
-        <h3 className="font-bold text-foreground mb-3">Recent Activity</h3>
-        
-        <div className="space-y-3">
-          <div className="flex items-center p-2 border-b border-border">
-            <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-            <p className="text-sm text-foreground">Watched <span className="font-medium">Sunday Service</span></p>
-            <p className="text-xs text-muted-foreground ml-auto">2h ago</p>
-          </div>
-          
-          <div className="flex items-center p-2 border-b border-border">
-            <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-            <p className="text-sm text-foreground">Followed <span className="font-medium">Pastor Sarah</span></p>
-            <p className="text-xs text-muted-foreground ml-auto">Yesterday</p>
-          </div>
-          
-          <div className="flex items-center p-2 border-b border-border">
-            <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-            <p className="text-sm text-foreground">Commented on <span className="font-medium">Bible Study</span></p>
-            <p className="text-xs text-muted-foreground ml-auto">3 days ago</p>
-          </div>
-        </div>
-      </div>
-      
       <BottomNavigation />
-
-      {/* Fixed EditProfileModal - Added dialog wrapper */}
       <EditProfileModal
         open={isEditModalOpen}
         onOpenChange={setIsEditModalOpen}
