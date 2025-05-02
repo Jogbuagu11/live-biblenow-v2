@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
 import { ThemeToggle } from '../components/ThemeToggle';
-import { useTheme } from '../components/ThemeProvider';
+import { useTheme } from '../hooks/use-theme';
 
 const Settings = () => {
   const navigate = useNavigate();
