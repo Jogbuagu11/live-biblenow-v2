@@ -4,6 +4,7 @@ import BottomNavigation from '../components/BottomNavigation';
 import { supabase } from '@/integrations/supabase/client';
 import { formatDistanceToNow } from 'date-fns';
 import HeaderBar from '@/components/HeaderBar';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Notification = {
   id: string;
@@ -28,11 +29,18 @@ const Notifications = () => {
   // Fetch current user
   useEffect(() => {
     const fetchUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (data.user) {
-        setUser(data.user);
-      } else {
-        // Even if no user is found, stop the loading state
+      try {
+        const { data } = await supabase.auth.getUser();
+        if (data.user) {
+          setUser(data.user);
+          // Only fetch notifications if we have a user
+          fetchNotifications(data.user.id);
+        } else {
+          // No user, so we're done loading
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
         setLoading(false);
       }
     };
@@ -41,33 +49,26 @@ const Notifications = () => {
   }, []);
   
   // Fetch existing notifications
-  useEffect(() => {
-    if (!user) return;
-    
-    const fetchNotifications = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from('notifications')
-          .select('*')
-          .eq('user_id', user.id)
-          .eq('type', 'stream_alert')
-          .order('created_at', { ascending: false });
-          
-        if (error) throw error;
+  const fetchNotifications = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('type', 'stream_alert')
+        .order('created_at', { ascending: false });
         
-        if (data) {
-          setNotifications(data as Notification[]);
-        }
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      } finally {
-        setLoading(false);
+      if (error) throw error;
+      
+      if (data) {
+        setNotifications(data as Notification[]);
       }
-    };
-    
-    fetchNotifications();
-  }, [user]);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   
   // Subscribe to real-time notifications
   useEffect(() => {
@@ -119,8 +120,17 @@ const Notifications = () => {
       {/* Notifications List */}
       <div className="p-4">
         {loading ? (
-          <div className="flex justify-center items-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <div className="bg-card rounded-xl shadow-sm overflow-hidden">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="p-4 flex items-start border-b border-border last:border-0">
+                <Skeleton className="w-10 h-10 rounded-full" />
+                <div className="ml-3 flex-1">
+                  <Skeleton className="h-5 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-full mb-1" />
+                  <Skeleton className="h-3 w-1/4 mt-2" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : notifications.length > 0 ? (
           <div className="bg-card rounded-xl shadow-sm overflow-hidden">
