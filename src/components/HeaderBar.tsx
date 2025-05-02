@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NotificationBell from './NotificationBell';
 import Avatar from './Avatar';
+import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '@/hooks/use-theme';
 
 const HeaderBar = () => {
@@ -20,6 +21,7 @@ const HeaderBar = () => {
         
         <div className="flex items-center gap-4">
           <NotificationBell />
+          <ThemeToggle />
           <Link to="/profile">
             <Avatar 
               src={demoAvatarUrl}
