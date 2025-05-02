@@ -35,6 +35,11 @@ const Profile = () => {
       profileImageUrl: newImageUrl,
       isLoading: false
     });
+    
+    toast({
+      title: "Profile Updated",
+      description: "Your profile has been successfully updated."
+    });
   };
 
   return (
@@ -111,6 +116,7 @@ const Profile = () => {
       
       <BottomNavigation />
 
+      {/* Fixed EditProfileModal - Added dialog wrapper */}
       <EditProfileModal
         open={isEditModalOpen}
         onOpenChange={setIsEditModalOpen}
