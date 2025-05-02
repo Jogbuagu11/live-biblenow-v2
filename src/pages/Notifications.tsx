@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import BottomNavigation from '../components/BottomNavigation';
 import { supabase } from '@/integrations/supabase/client';
 import { formatDistanceToNow } from 'date-fns';
+import HeaderBar from '@/components/HeaderBar';
 
 type Notification = {
   id: string;
@@ -30,6 +31,9 @@ const Notifications = () => {
       const { data } = await supabase.auth.getUser();
       if (data.user) {
         setUser(data.user);
+      } else {
+        // Even if no user is found, stop the loading state
+        setLoading(false);
       }
     };
     
@@ -107,6 +111,7 @@ const Notifications = () => {
   return (
     <div className="min-h-screen bg-background pb-16">
       {/* Header */}
+      <HeaderBar />
       <div className="bg-card p-6 shadow-sm">
         <h1 className="text-xl font-bold text-foreground">Livestream Notifications</h1>
       </div>
