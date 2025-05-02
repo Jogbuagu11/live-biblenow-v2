@@ -1,19 +1,85 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../components/Avatar';
 import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
+import EditProfileModal from '../components/EditProfileModal';
+import { supabase } from '../integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const Profile = () => {
   const navigate = useNavigate();
-
-  const handleEditProfile = () => {
-    // In a real app, this would navigate to edit profile
-  };
+  const { toast } = useToast();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState({
+    bio: '',
+    profileImageUrl: '/placeholder.svg',
+    isLoading: true
+  });
+  const [user, setUser] = useState(null);
 
   const handleSettingsClick = () => {
     navigate('/settings');
+  };
+
+  // Fetch user and profile data
+  useEffect(() => {
+    const fetchUserAndProfile = async () => {
+      try {
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (user) {
+          setUser(user);
+          
+          // Get profile data
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('bio, profile_photo_url')
+            .eq('id', user.id)
+            .single();
+          
+          if (error && error.code !== 'PGRST116') {
+            throw error;
+          }
+          
+          if (profile) {
+            setUserProfile({
+              bio: profile.bio || '',
+              profileImageUrl: profile.profile_photo_url || '/placeholder.svg',
+              isLoading: false
+            });
+          } else {
+            setUserProfile(prev => ({ ...prev, isLoading: false }));
+          }
+        } else {
+          setUserProfile(prev => ({ ...prev, isLoading: false }));
+        }
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load profile data',
+          variant: 'destructive'
+        });
+        setUserProfile(prev => ({ ...prev, isLoading: false }));
+      }
+    };
+
+    fetchUserAndProfile();
+  }, [toast]);
+
+  const handleEditProfile = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleProfileUpdated = (newBio, newImageUrl) => {
+    setUserProfile({
+      bio: newBio,
+      profileImageUrl: newImageUrl,
+      isLoading: false
+    });
   };
 
   return (
@@ -31,7 +97,7 @@ const Profile = () => {
       
       {/* Profile Info */}
       <div className="bg-card p-6 flex flex-col items-center">
-        <Avatar size="xl" className="mb-4" />
+        <Avatar src={userProfile.profileImageUrl} size="xl" className="mb-4" />
         <h2 className="text-xl font-bold text-foreground">John Doe</h2>
         <p className="text-muted-foreground mb-6">Joined April 2023</p>
         
@@ -58,7 +124,9 @@ const Profile = () => {
       {/* Bio */}
       <div className="m-4 p-4 bg-card rounded-xl">
         <h3 className="font-bold text-foreground mb-2">Bio</h3>
-        <p className="text-muted-foreground">I'm passionate about studying the Bible and connecting with fellow believers through livestreams. Looking forward to growing in faith together!</p>
+        <p className="text-muted-foreground">
+          {userProfile.bio || "I'm passionate about studying the Bible and connecting with fellow believers through livestreams. Looking forward to growing in faith together!"}
+        </p>
       </div>
       
       {/* Recent Activity */}
@@ -87,6 +155,14 @@ const Profile = () => {
       </div>
       
       <BottomNavigation />
+
+      <EditProfileModal
+        open={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        currentBio={userProfile.bio}
+        currentImageUrl={userProfile.profileImageUrl}
+        onProfileUpdated={handleProfileUpdated}
+      />
     </div>
   );
 };
