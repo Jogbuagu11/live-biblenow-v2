@@ -1,8 +1,11 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '../components/BottomNavigation';
 import HeaderBar from '@/components/HeaderBar';
 import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import Avatar from '@/components/Avatar';
 
 const Home = () => {
   const navigate = useNavigate();

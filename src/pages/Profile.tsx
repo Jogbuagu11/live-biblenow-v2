@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '../components/BottomNavigation';
@@ -131,7 +132,7 @@ const Profile = () => {
           </div>
         </div>
         
-        <Button onClick={handleEditProfile} variant="outline" fullWidth>
+        <Button onClick={handleEditProfile} variant="outline" className="w-full">
           Edit Profile
         </Button>
       </div>
