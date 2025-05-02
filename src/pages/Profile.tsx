@@ -7,6 +7,7 @@ import BottomNavigation from '../components/BottomNavigation';
 import EditProfileModal from '../components/EditProfileModal';
 import { supabase } from '../integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { User } from '@supabase/supabase-js';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Profile = () => {
     isLoading: true,
     username: 'John Doe'
   });
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const handleSettingsClick = () => {
     navigate('/settings');
@@ -37,7 +38,7 @@ const Profile = () => {
           // Get profile data
           const { data: profile, error } = await supabase
             .from('profiles')
-            .select('bio, profile_photo_url')
+            .select('bio, profile_photo_url, username')
             .eq('id', user.id)
             .single();
           
@@ -50,10 +51,14 @@ const Profile = () => {
               bio: profile.bio || '',
               profileImageUrl: profile.profile_photo_url || '/placeholder.svg',
               isLoading: false,
-              username: 'John Doe'  // This would typically come from the profile
+              username: profile.username || user.email?.split('@')[0] || 'User'
             });
           } else {
-            setUserProfile(prev => ({ ...prev, isLoading: false }));
+            setUserProfile(prev => ({ 
+              ...prev, 
+              isLoading: false,
+              username: user.email?.split('@')[0] || 'User'
+            }));
           }
         } else {
           setUserProfile(prev => ({ ...prev, isLoading: false }));
@@ -79,6 +84,7 @@ const Profile = () => {
   }, [toast, navigate]);
 
   const handleEditProfile = () => {
+    console.log("Edit profile button clicked"); // Debug log
     setIsEditModalOpen(true);
   };
 

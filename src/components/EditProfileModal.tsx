@@ -35,7 +35,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
   useEffect(() => {
     setBio(currentBio);
     setImageUrl(currentImageUrl);
-  }, [currentBio, currentImageUrl]);
+  }, [currentBio, currentImageUrl, open]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -51,9 +51,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const handleSave = async () => {
     try {
       setIsLoading(true);
+      console.log("Save button clicked, starting profile update");
       
       // Get the current user
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError) {
+        throw userError;
+      }
       
       if (!user) {
         toast({
@@ -64,10 +69,21 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
         return;
       }
 
+      console.log("User authenticated:", user.id);
       let updatedImageUrl = imageUrl;
+
+      // If there's an existing image and it's different from the placeholder, delete it
+      if (file && currentImageUrl && currentImageUrl.includes('profiles/')) {
+        const oldFilePath = currentImageUrl.split('profiles/').pop();
+        if (oldFilePath) {
+          console.log("Attempting to remove old profile photo:", oldFilePath);
+          await supabase.storage.from('profiles').remove([oldFilePath]);
+        }
+      }
 
       // Upload image if a new one is selected
       if (file) {
+        console.log("Uploading new profile photo");
         const fileExt = file.name.split('.').pop();
         const fileName = `${user.id}-${Math.random().toString(36).substring(2)}.${fileExt}`;
         const filePath = `${fileName}`;
@@ -81,15 +97,18 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
           throw uploadError;
         }
         
+        console.log("Upload successful, getting public URL");
         // Get the public URL
         const { data: { publicUrl } } = supabase.storage
           .from('profiles')
           .getPublicUrl(filePath);
         
         updatedImageUrl = publicUrl;
+        console.log("New image URL:", updatedImageUrl);
       }
       
       // Update the profile in the database
+      console.log("Updating profile in database");
       const { error } = await supabase
         .from('profiles')
         .upsert({ 
@@ -104,6 +123,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
         throw error;
       }
       
+      console.log("Profile updated successfully");
       toast({
         title: "Profile Updated",
         description: "Your profile has been successfully updated.",
