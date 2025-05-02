@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NotificationBell from './NotificationBell';
 import Avatar from './Avatar';
-import ThemeToggle from './ThemeToggle';
+import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/integrations/supabase/client';
 
