@@ -39,9 +39,11 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      
       // Create a preview URL
-      const objectUrl = URL.createObjectURL(e.target.files[0]);
+      const objectUrl = URL.createObjectURL(selectedFile);
       setImageUrl(objectUrl);
     }
   };
@@ -68,13 +70,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
       if (file) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${user.id}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-        const filePath = `profile-photos/${fileName}`;
+        const filePath = `${fileName}`;
         
         const { error: uploadError, data } = await supabase.storage
           .from('profiles')
           .upload(filePath, file);
         
         if (uploadError) {
+          console.error('Upload error:', uploadError);
           throw uploadError;
         }
         
@@ -97,6 +100,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
         });
       
       if (error) {
+        console.error('Upsert error:', error);
         throw error;
       }
       
@@ -162,6 +166,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
               onChange={(e) => setBio(e.target.value)}
               rows={4}
               className="resize-none"
+              maxLength={200}
             />
             <p className="text-xs text-muted-foreground text-right">
               {bio.length}/200 characters

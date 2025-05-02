@@ -16,3 +16,7 @@ WITH CHECK (bucket_id = 'profiles' AND auth.uid() IS NOT NULL);
 CREATE POLICY "Users can update their own profile photos"
 ON storage.objects FOR UPDATE
 USING (bucket_id = 'profiles' AND auth.uid() = owner);
+
+CREATE POLICY "Users can delete their own profile photos"
+ON storage.objects FOR DELETE
+USING (bucket_id = 'profiles' AND auth.uid() = owner);

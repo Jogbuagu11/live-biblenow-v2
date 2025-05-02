@@ -15,7 +15,8 @@ const Profile = () => {
   const [userProfile, setUserProfile] = useState({
     bio: '',
     profileImageUrl: '/placeholder.svg',
-    isLoading: true
+    isLoading: true,
+    username: 'John Doe'
   });
   const [user, setUser] = useState(null);
 
@@ -48,13 +49,20 @@ const Profile = () => {
             setUserProfile({
               bio: profile.bio || '',
               profileImageUrl: profile.profile_photo_url || '/placeholder.svg',
-              isLoading: false
+              isLoading: false,
+              username: 'John Doe'  // This would typically come from the profile
             });
           } else {
             setUserProfile(prev => ({ ...prev, isLoading: false }));
           }
         } else {
           setUserProfile(prev => ({ ...prev, isLoading: false }));
+          toast({
+            title: "Authentication Required",
+            description: "Please sign in to view your profile",
+            variant: "destructive"
+          });
+          navigate('/auth');
         }
       } catch (error) {
         console.error('Error fetching profile:', error);
@@ -68,7 +76,7 @@ const Profile = () => {
     };
 
     fetchUserAndProfile();
-  }, [toast]);
+  }, [toast, navigate]);
 
   const handleEditProfile = () => {
     setIsEditModalOpen(true);
@@ -76,6 +84,7 @@ const Profile = () => {
 
   const handleProfileUpdated = (newBio, newImageUrl) => {
     setUserProfile({
+      ...userProfile,
       bio: newBio,
       profileImageUrl: newImageUrl,
       isLoading: false
@@ -98,7 +107,7 @@ const Profile = () => {
       {/* Profile Info */}
       <div className="bg-card p-6 flex flex-col items-center">
         <Avatar src={userProfile.profileImageUrl} size="xl" className="mb-4" />
-        <h2 className="text-xl font-bold text-foreground">John Doe</h2>
+        <h2 className="text-xl font-bold text-foreground">{userProfile.username}</h2>
         <p className="text-muted-foreground mb-6">Joined April 2023</p>
         
         <div className="flex justify-around w-full mb-4">
