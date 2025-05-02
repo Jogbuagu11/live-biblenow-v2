@@ -1,3 +1,4 @@
+
 // src/pages/Profile.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -63,7 +64,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-background pb-16">
-      <HeaderBar title="Profile" onSettingsClick={() => navigate('/settings')} />
+      <HeaderBar />
       <div className="bg-card p-6 flex flex-col items-center">
         <Avatar src={userProfile.profileImageUrl} size="xl" className="mb-4" />
         <h2 className="text-xl font-bold">{userProfile.username}</h2>
