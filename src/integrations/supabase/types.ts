@@ -1656,6 +1656,33 @@ export type Database = {
         }
         Relationships: []
       }
+      user_invites: {
+        Row: {
+          accepted: boolean | null
+          accepted_at: string | null
+          id: string
+          invitee_email: string
+          inviter_id: string | null
+          sent_at: string | null
+        }
+        Insert: {
+          accepted?: boolean | null
+          accepted_at?: string | null
+          id?: string
+          invitee_email: string
+          inviter_id?: string | null
+          sent_at?: string | null
+        }
+        Update: {
+          accepted?: boolean | null
+          accepted_at?: string | null
+          id?: string
+          invitee_email?: string
+          inviter_id?: string | null
+          sent_at?: string | null
+        }
+        Relationships: []
+      }
       user_preferences: {
         Row: {
           audiospeed: number | null

@@ -3,13 +3,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
-import { ThemeToggle } from '../components/ThemeToggle';
-import { useTheme } from '../components/ThemeProvider';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { useTheme } from '@/hooks/use-theme';
+import { InviteUsersModal } from '@/components/InviteUsersModal';
+import { UserPlus } from 'lucide-react';
 
 const Settings = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [twoFA, setTwoFA] = useState(false);
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
   
   const goBack = () => {
     navigate(-1);
@@ -47,13 +50,21 @@ const Settings = () => {
         <div className="mb-6 bg-card rounded-xl p-4">
           <h2 className="font-bold text-foreground mb-4">Appearance</h2>
           
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <div>
               <p className="font-medium text-foreground">Dark Mode</p>
               <p className="text-sm text-muted-foreground">Change app appearance</p>
             </div>
             <ThemeToggle />
           </div>
+          
+          <button 
+            onClick={() => setInviteModalOpen(true)}
+            className="w-full py-3 bg-secondary text-secondary-foreground rounded-lg flex items-center justify-center gap-2 hover:bg-secondary/80 transition-colors"
+          >
+            <UserPlus className="h-5 w-5" />
+            <span className="font-medium">Invite Users</span>
+          </button>
         </div>
         
         {/* Security */}
@@ -119,6 +130,9 @@ const Settings = () => {
           Logout
         </Button>
       </div>
+
+      {/* Invite Users Modal */}
+      <InviteUsersModal open={inviteModalOpen} onOpenChange={setInviteModalOpen} />
       
       <BottomNavigation />
     </div>
