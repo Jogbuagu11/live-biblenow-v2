@@ -64,7 +64,7 @@ const HeaderBar = () => {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between">
         <div className="flex items-center gap-2">
-          {/* Logo area */}
+          <Logo />
         </div>
         
         <div className="flex items-center gap-4">
@@ -74,7 +74,7 @@ const HeaderBar = () => {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search livestreams or verses..."
+                placeholder="Search"
                 className="pl-8 pr-4"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -89,20 +89,18 @@ const HeaderBar = () => {
             </Link>
           )}
           
-          {/* Avatar only on Home page */}
-          {isHomePage && (
-            user ? (
-              <Link to="/profile">
-                <Avatar 
-                  src={user.user_metadata?.profile_photo_url || defaultAvatarUrl}
-                  alt="Profile"
-                  size="sm"
-                  className="cursor-pointer"
-                />
-              </Link>
-            ) : (
-              <Button variant="outline" onClick={handleLogin}>Log In</Button>
-            )
+          {/* Avatar on all pages */}
+          {user ? (
+            <Link to="/profile">
+              <Avatar 
+                src={user.user_metadata?.profile_photo_url || defaultAvatarUrl}
+                alt="Profile"
+                size="sm"
+                className="cursor-pointer"
+              />
+            </Link>
+          ) : (
+            <Button variant="outline" onClick={handleLogin}>Log In</Button>
           )}
         </div>
       </div>

@@ -23,14 +23,20 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background pb-16">
-      <div className="bg-card p-6 shadow-sm">
-        <HeaderBar />
-      </div>
+      <HeaderBar />
       
-      {/* Welcome Banner */}
-      <div className="p-6 bg-gradient-to-r from-primary/20 to-primary/10 mb-2">
-        <h1 className="text-2xl font-bold mb-2">Welcome!</h1>
-        <p className="text-muted-foreground">Connect with faith communities and watch livestreams from your favorite ministries.</p>
+      {/* Welcome Banner with enhanced design */}
+      <div className="p-6 bg-gradient-to-r from-secondary/30 to-primary/20 mb-4 rounded-lg mx-4 mt-4 shadow-sm">
+        <div className="max-w-xl">
+          <h1 className="text-2xl font-bold mb-2 text-foreground">Welcome to Bible Live!</h1>
+          <p className="text-foreground/80 leading-relaxed">
+            Connect with faith communities and watch livestreams from your favorite ministries. 
+            Join discussions, share insights, and deepen your spiritual journey together.
+          </p>
+          <Button className="mt-4" variant="secondary">
+            Explore Livestreams
+          </Button>
+        </div>
       </div>
       
       {/* Featured Streamers */}
