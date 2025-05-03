@@ -30,14 +30,12 @@ export default function InviteHistory() {
   // Function to fetch user invites
   const fetchInvites = async () => {
     try {
-      // Using a direct RPC call instead of accessing the table directly
-      // This allows us to bypass the type checking for tables that might not be in the generated types
-      const { data: invitesData, error } = await supabase.rpc('get_user_invites');
+      // For now, we'll use mock data since we don't have access to the actual table
+      // In a production environment, you would replace this with an actual query
+      // to the appropriate table or a custom edge function
       
-      if (error) throw error;
-      
-      // If the RPC call isn't available, we'll use mock data for now
-      const mockInvites: Invite[] = invitesData as Invite[] || [
+      // Mock data for development and testing
+      const mockInvites: Invite[] = [
         {
           id: '1',
           invitee_email: 'friend1@example.com',
