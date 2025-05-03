@@ -11,12 +11,20 @@ import { supabase } from '../integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User } from '@supabase/supabase-js';
 import { formatDistanceToNow } from 'date-fns';
+import { X } from 'lucide-react';
 
 type Activity = {
   id: string;
   type: 'livestream_watched' | 'comment_posted' | 'donation_made';
   title: string;
   timestamp: string;
+};
+
+type Following = {
+  id: string;
+  username: string;
+  profileImageUrl: string;
+  followedAt: string;
 };
 
 const Profile = () => {
@@ -32,6 +40,8 @@ const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loadingActivities, setLoadingActivities] = useState(true);
+  const [following, setFollowing] = useState<Following[]>([]);
+  const [loadingFollowing, setLoadingFollowing] = useState(true);
 
   useEffect(() => {
     const fetchUserAndProfile = async () => {
@@ -79,13 +89,37 @@ const Profile = () => {
         timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(), // 3 days ago
       },
     ];
+
+    // Sample following data - in a real app, this would come from the database
+    const sampleFollowing: Following[] = [
+      {
+        id: '1',
+        username: 'Pastor John',
+        profileImageUrl: '/placeholder.svg',
+        followedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(), // 7 days ago
+      },
+      {
+        id: '2',
+        username: 'Sarah\'s Bible Study',
+        profileImageUrl: '/placeholder.svg',
+        followedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14).toISOString(), // 14 days ago
+      },
+      {
+        id: '3',
+        username: 'Community Church',
+        profileImageUrl: '/placeholder.svg',
+        followedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString(), // 30 days ago
+      },
+    ];
     
     fetchUserAndProfile();
     
-    // Simulate loading activities
+    // Simulate loading activities and following
     setTimeout(() => {
       setActivities(sampleActivities);
       setLoadingActivities(false);
+      setFollowing(sampleFollowing);
+      setLoadingFollowing(false);
     }, 1000);
   }, []);
 
@@ -99,6 +133,15 @@ const Profile = () => {
       bio: newBio,
       profileImageUrl: newImageUrl,
     }));
+  };
+
+  const handleUnfollow = (followingId: string) => {
+    // In a real app, this would make an API call to unfollow
+    setFollowing(prev => prev.filter(item => item.id !== followingId));
+    toast({
+      title: "Unfollowed",
+      description: "You've successfully unfollowed this user.",
+    });
   };
 
   // Function to get icon based on activity type
@@ -177,6 +220,60 @@ const Profile = () => {
           </div>
         ) : (
           <p className="text-center text-muted-foreground">No recent activity to display.</p>
+        )}
+      </div>
+      
+      {/* Following Section */}
+      <div className="m-4 p-4 bg-card rounded-xl">
+        <h3 className="font-bold text-foreground mb-4">Following</h3>
+        
+        {loadingFollowing ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center justify-between gap-3 animate-pulse">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-muted rounded-full"></div>
+                  <div>
+                    <div className="h-4 bg-muted rounded w-24 mb-2"></div>
+                    <div className="h-3 bg-muted rounded w-16"></div>
+                  </div>
+                </div>
+                <div className="w-8 h-8 bg-muted rounded"></div>
+              </div>
+            ))}
+          </div>
+        ) : following.length > 0 ? (
+          <div className="space-y-4">
+            {following.map((followedUser) => (
+              <div key={followedUser.id} className="flex items-center justify-between gap-3 p-2 rounded-md hover:bg-muted/50">
+                <div className="flex items-center gap-3">
+                  <Avatar src={followedUser.profileImageUrl} size="sm" />
+                  <div>
+                    <p className="text-sm font-medium">{followedUser.username}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Following since {formatDistanceToNow(new Date(followedUser.followedAt), { addSuffix: false })} ago
+                    </p>
+                  </div>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => handleUnfollow(followedUser.id)}
+                  className="h-8 w-8 p-0 rounded-full"
+                  title="Unfollow"
+                >
+                  <X size={16} />
+                </Button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-6">
+            <p className="text-muted-foreground mb-4">You're not following anyone yet</p>
+            <Button onClick={() => navigate('/livestream')} variant="outline">
+              Discover Streamers
+            </Button>
+          </div>
         )}
       </div>
       
