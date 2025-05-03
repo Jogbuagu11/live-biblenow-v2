@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
-import { ThemeToggle } from '../components/ThemeProvider';
+import { ThemeToggle } from '../components/ThemeToggle'; // Changed import path
 import { useTheme } from '../components/ThemeProvider';
 import InviteUserForm from '../components/InviteUserForm';
 import InviteHistory from '../components/InviteHistory';
