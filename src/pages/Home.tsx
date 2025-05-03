@@ -25,10 +25,10 @@ const Home = () => {
     <div className="min-h-screen bg-background pb-16">
       <HeaderBar />
       
-      {/* Welcome Banner with enhanced design */}
-      <div className="p-6 bg-gradient-to-r from-secondary/30 to-primary/20 mb-4 rounded-lg mx-4 mt-4 shadow-sm">
+      {/* Welcome Banner with enhanced design and more vibrant colors */}
+      <div className="p-6 bg-gradient-to-r from-biblegold to-primary/30 mb-4 rounded-lg mx-4 mt-4 shadow-sm animate-fade-in">
         <div className="max-w-xl">
-          <h1 className="text-2xl font-bold mb-2 text-foreground">Welcome to Bible Live!</h1>
+          <h1 className="text-2xl font-bold mb-2 text-foreground">Welcome to BibleNOW</h1>
           <p className="text-foreground/80 leading-relaxed">
             Connect with faith communities and watch livestreams from your favorite ministries. 
             Join discussions, share insights, and deepen your spiritual journey together.
