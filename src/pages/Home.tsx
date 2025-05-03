@@ -30,7 +30,7 @@ const Home = () => {
       
       {/* Welcome Banner */}
       <div className="bg-primary text-primary-foreground p-6 flex flex-col items-center">
-        <h1 className="text-2xl font-bold mb-3">Welcome to BibleNOW</h1>
+        <h1 className="text-2xl font-bold mb-3">Welcome</h1>
         <p className="text-center mb-4">Your gateway to spiritual livestreams</p>
         <Button variant="secondary" className="mt-2">
           Explore Livestreams
