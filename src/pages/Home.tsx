@@ -25,8 +25,8 @@ const Home = () => {
     <div className="min-h-screen bg-background pb-16">
       <HeaderBar />
       
-      {/* Welcome Banner with improved gradient */}
-      <div className="p-6 bg-gradient-to-r from-primary/80 via-biblegold to-secondary mb-4 rounded-lg mx-4 mt-4 shadow-md animate-fade-in">
+      {/* Welcome Banner with solid brown color */}
+      <div className="p-6 bg-biblebrown mb-4 rounded-lg mx-4 mt-4 shadow-md animate-fade-in">
         <div className="max-w-xl">
           <h1 className="text-2xl font-bold mb-2 text-foreground">Welcome to BibleNOW</h1>
           <p className="text-foreground/80 leading-relaxed">
