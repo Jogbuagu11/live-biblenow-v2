@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import BottomNavigation from '../components/BottomNavigation';
 import { supabase } from '@/integrations/supabase/client';
@@ -114,7 +113,7 @@ const Notifications = () => {
       {/* Header */}
       <HeaderBar />
       <div className="bg-card p-6 shadow-sm">
-        <h1 className="text-xl font-bold text-foreground">Livestream Notifications</h1>
+        <h1 className="text-xl font-bold text-foreground">Notifications</h1>
       </div>
       
       {/* Notifications List */}
@@ -176,8 +175,8 @@ const Notifications = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
             </div>
-            <h2 className="text-xl font-bold text-foreground mb-2">No Livestream Notifications</h2>
-            <p className="text-muted-foreground">No streamers have gone live recently. Follow streamers to get notifications when they go live.</p>
+            <h2 className="text-xl font-bold text-foreground mb-2">No Notifications</h2>
+            <p className="text-muted-foreground">No notifications to display at this time. Check back later for updates.</p>
           </div>
         )}
       </div>

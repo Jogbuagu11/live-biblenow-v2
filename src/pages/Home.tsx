@@ -27,6 +27,12 @@ const Home = () => {
         <HeaderBar />
       </div>
       
+      {/* Welcome Banner */}
+      <div className="p-6 bg-gradient-to-r from-primary/20 to-primary/10 mb-2">
+        <h1 className="text-2xl font-bold mb-2">Welcome!</h1>
+        <p className="text-muted-foreground">Connect with faith communities and watch livestreams from your favorite ministries.</p>
+      </div>
+      
       {/* Featured Streamers */}
       <div className="p-6">
         <h2 className="text-lg font-bold mb-4 text-foreground">Featured Streamers</h2>

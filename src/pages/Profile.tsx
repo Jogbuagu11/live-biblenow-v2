@@ -10,6 +10,14 @@ import EditProfileModal from '../components/EditProfileModal';
 import { supabase } from '../integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User } from '@supabase/supabase-js';
+import { formatDistanceToNow } from 'date-fns';
+
+type Activity = {
+  id: string;
+  type: 'livestream_watched' | 'comment_posted' | 'donation_made';
+  title: string;
+  timestamp: string;
+};
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -22,6 +30,8 @@ const Profile = () => {
     username: 'Demo User'
   });
   const [user, setUser] = useState<User | null>(null);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [loadingActivities, setLoadingActivities] = useState(true);
 
   useEffect(() => {
     const fetchUserAndProfile = async () => {
@@ -47,7 +57,36 @@ const Profile = () => {
         console.error('Error loading profile:', err);
       }
     };
+    
+    // Sample recent activity data - in a real app, this would come from the database
+    const sampleActivities: Activity[] = [
+      {
+        id: '1',
+        type: 'livestream_watched',
+        title: 'Watched "Sunday Morning Service"',
+        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
+      },
+      {
+        id: '2',
+        type: 'comment_posted',
+        title: 'Commented on "Bible Study Group"',
+        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
+      },
+      {
+        id: '3',
+        type: 'donation_made',
+        title: 'Made a donation to Community Church',
+        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(), // 3 days ago
+      },
+    ];
+    
     fetchUserAndProfile();
+    
+    // Simulate loading activities
+    setTimeout(() => {
+      setActivities(sampleActivities);
+      setLoadingActivities(false);
+    }, 1000);
   }, []);
 
   const handleEditProfile = () => {
@@ -60,6 +99,36 @@ const Profile = () => {
       bio: newBio,
       profileImageUrl: newImageUrl,
     }));
+  };
+
+  // Function to get icon based on activity type
+  const getActivityIcon = (type: Activity['type']) => {
+    switch (type) {
+      case 'livestream_watched':
+        return (
+          <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+            </svg>
+          </div>
+        );
+      case 'comment_posted':
+        return (
+          <div className="p-2 rounded-full bg-green-100 dark:bg-green-900/30">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+            </svg>
+          </div>
+        );
+      case 'donation_made':
+        return (
+          <div className="p-2 rounded-full bg-amber-100 dark:bg-amber-900/30">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
+            </svg>
+          </div>
+        );
+    }
   };
 
   return (
@@ -75,6 +144,42 @@ const Profile = () => {
         <h3 className="font-bold text-foreground mb-2">Bio</h3>
         <p className="text-muted-foreground">{userProfile.bio}</p>
       </div>
+      
+      {/* Recent Activity Section */}
+      <div className="m-4 p-4 bg-card rounded-xl">
+        <h3 className="font-bold text-foreground mb-4">Recent Activity</h3>
+        
+        {loadingActivities ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center gap-3 animate-pulse">
+                <div className="w-8 h-8 bg-muted rounded-full"></div>
+                <div className="flex-1">
+                  <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+                  <div className="h-3 bg-muted rounded w-1/4"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : activities.length > 0 ? (
+          <div className="space-y-4">
+            {activities.map((activity) => (
+              <div key={activity.id} className="flex items-start gap-3">
+                {getActivityIcon(activity.type)}
+                <div className="flex-1">
+                  <p className="text-sm font-medium">{activity.title}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-muted-foreground">No recent activity to display.</p>
+        )}
+      </div>
+      
       <BottomNavigation />
       <EditProfileModal
         open={isEditModalOpen}
