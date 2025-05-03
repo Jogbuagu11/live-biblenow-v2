@@ -8,13 +8,18 @@ import { Button } from './ui/button';
 import { supabase } from '../integrations/supabase/client';
 import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
+import { Input } from './ui/input';
+import { Search, Settings } from 'lucide-react';
 
 const HeaderBar = () => {
   const { theme } = useTheme();
   const location = useLocation();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
   const isHomePage = location.pathname === '/' || location.pathname === '/home';
+  const isLivestreamPage = location.pathname === '/livestream';
+  const isProfilePage = location.pathname === '/profile';
   
   // Default avatar - will use the uploaded image
   const defaultAvatarUrl = "/lovable-uploads/90164570-ed1b-470d-8239-c5ca43c9050e.png";
@@ -46,14 +51,43 @@ const HeaderBar = () => {
     window.location.href = '/auth';
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Implement search functionality
+    console.log('Searching for:', searchQuery);
+    // Here you could filter livestreams or navigate to search results
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between">
         <div className="flex items-center gap-2">
-          {/* Removed "Live" text from here */}
+          {/* Logo area */}
         </div>
         
         <div className="flex items-center gap-4">
+          {/* Search bar for Livestream page */}
+          {isLivestreamPage && (
+            <form onSubmit={handleSearch} className="relative w-full max-w-sm mr-2">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search livestreams or verses..."
+                className="pl-8 pr-4"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </form>
+          )}
+          
+          {/* Settings for Profile page */}
+          {isProfilePage && (
+            <Link to="/settings" className="text-foreground hover:text-primary transition-colors">
+              <Settings size={20} />
+            </Link>
+          )}
+          
+          {/* Avatar only on Home page */}
           {isHomePage && (
             user ? (
               <Link to="/profile">

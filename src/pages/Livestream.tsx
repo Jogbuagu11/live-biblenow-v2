@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '../components/BottomNavigation';
 import HeaderBar from '@/components/HeaderBar';
 
 const Livestream = () => {
   const navigate = useNavigate();
+  const [filteredStreams, setFilteredStreams] = useState<any[]>([]);
 
   const handleLivestreamClick = () => {
     navigate('/livestream-watch');
@@ -22,7 +23,7 @@ const Livestream = () => {
 
   return (
     <div className="min-h-screen bg-background pb-16">
-      {/* Header */}
+      {/* Header with Search */}
       <HeaderBar />
       
       {/* Current Livestreams */}
