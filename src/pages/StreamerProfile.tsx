@@ -1,17 +1,46 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../components/Avatar';
-import Button from '../components/Button';
+import { Button } from '@/components/ui/button';
 import BottomNavigation from '../components/BottomNavigation';
 import DonationModal from '../components/DonationModal';
+import { useToast } from '@/hooks/use-toast';
+import { UserX } from 'lucide-react';
 
 const StreamerProfile = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  // Simulate checking if user is following the streamer
+  useEffect(() => {
+    // In a real app, this would check against a database
+    // Here we're just setting a random value for demo purposes
+    setIsFollowing(Math.random() > 0.5);
+  }, []);
 
   const goBack = () => {
     navigate(-1);
+  };
+
+  const handleFollowToggle = () => {
+    if (isFollowing) {
+      // Unfollow logic
+      setIsFollowing(false);
+      toast({
+        title: "Unfollowed",
+        description: "You've successfully unfollowed this streamer.",
+      });
+    } else {
+      // Follow logic
+      setIsFollowing(true);
+      toast({
+        title: "Following",
+        description: "You're now following this streamer.",
+      });
+    }
   };
 
   return (
@@ -54,8 +83,24 @@ const StreamerProfile = () => {
           </div>
           
           <div className="mt-6 space-y-3">
-            <Button fullWidth>Follow</Button>
-            <Button variant="outline" fullWidth onClick={() => setIsDonationModalOpen(true)}>
+            {isFollowing ? (
+              <Button 
+                variant="destructive" 
+                className="w-full"
+                onClick={handleFollowToggle}
+              >
+                <UserX size={16} className="mr-2" />
+                Unfollow
+              </Button>
+            ) : (
+              <Button 
+                className="w-full"
+                onClick={handleFollowToggle}
+              >
+                Follow
+              </Button>
+            )}
+            <Button variant="outline" className="w-full" onClick={() => setIsDonationModalOpen(true)}>
               Donate
             </Button>
           </div>
@@ -81,7 +126,7 @@ const StreamerProfile = () => {
             </div>
           </div>
           
-          <Button variant="outline" fullWidth className="mt-4">
+          <Button variant="outline" className="mt-4 w-full">
             Set Reminder
           </Button>
         </div>

@@ -1,5 +1,4 @@
 
-// src/pages/Profile.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '../components/BottomNavigation';
@@ -11,7 +10,7 @@ import { supabase } from '../integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User } from '@supabase/supabase-js';
 import { formatDistanceToNow } from 'date-fns';
-import { X } from 'lucide-react';
+import { UserX } from 'lucide-react';
 
 type Activity = {
   id: string;
@@ -183,98 +182,106 @@ const Profile = () => {
         <p className="text-muted-foreground mb-6">Joined April 2023</p>
         <Button onClick={handleEditProfile} variant="outline" className="w-full">Edit Profile</Button>
       </div>
-      <div className="m-4 p-4 bg-card rounded-xl">
-        <h3 className="font-bold text-foreground mb-2">Bio</h3>
-        <p className="text-muted-foreground">{userProfile.bio}</p>
-      </div>
       
-      {/* Recent Activity Section */}
-      <div className="m-4 p-4 bg-card rounded-xl">
-        <h3 className="font-bold text-foreground mb-4">Recent Activity</h3>
-        
-        {loadingActivities ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center gap-3 animate-pulse">
-                <div className="w-8 h-8 bg-muted rounded-full"></div>
-                <div className="flex-1">
-                  <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-                  <div className="h-3 bg-muted rounded w-1/4"></div>
-                </div>
-              </div>
-            ))}
+      <div className="flex flex-col md:flex-row">
+        {/* Left Column */}
+        <div className="md:w-1/2 p-4">
+          <div className="bg-card rounded-xl p-4">
+            <h3 className="font-bold text-foreground mb-2">Bio</h3>
+            <p className="text-muted-foreground">{userProfile.bio}</p>
           </div>
-        ) : activities.length > 0 ? (
-          <div className="space-y-4">
-            {activities.map((activity) => (
-              <div key={activity.id} className="flex items-start gap-3">
-                {getActivityIcon(activity.type)}
-                <div className="flex-1">
-                  <p className="text-sm font-medium">{activity.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-muted-foreground">No recent activity to display.</p>
-        )}
-      </div>
-      
-      {/* Following Section */}
-      <div className="m-4 p-4 bg-card rounded-xl">
-        <h3 className="font-bold text-foreground mb-4">Following</h3>
-        
-        {loadingFollowing ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center justify-between gap-3 animate-pulse">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-muted rounded-full"></div>
-                  <div>
-                    <div className="h-4 bg-muted rounded w-24 mb-2"></div>
-                    <div className="h-3 bg-muted rounded w-16"></div>
+          
+          {/* Following Section - Now on the left */}
+          <div className="bg-card rounded-xl p-4 mt-4">
+            <h3 className="font-bold text-foreground mb-4">Following</h3>
+            
+            {loadingFollowing ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex items-center justify-between gap-3 animate-pulse">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-muted rounded-full"></div>
+                      <div>
+                        <div className="h-4 bg-muted rounded w-24 mb-2"></div>
+                        <div className="h-3 bg-muted rounded w-16"></div>
+                      </div>
+                    </div>
+                    <div className="w-20 h-8 bg-muted rounded"></div>
                   </div>
-                </div>
-                <div className="w-8 h-8 bg-muted rounded"></div>
+                ))}
               </div>
-            ))}
-          </div>
-        ) : following.length > 0 ? (
-          <div className="space-y-4">
-            {following.map((followedUser) => (
-              <div key={followedUser.id} className="flex items-center justify-between gap-3 p-2 rounded-md hover:bg-muted/50">
-                <div className="flex items-center gap-3">
-                  <Avatar src={followedUser.profileImageUrl} size="sm" />
-                  <div>
-                    <p className="text-sm font-medium">{followedUser.username}</p>
-                    <p className="text-xs text-muted-foreground">
-                      Following since {formatDistanceToNow(new Date(followedUser.followedAt), { addSuffix: false })} ago
-                    </p>
+            ) : following.length > 0 ? (
+              <div className="space-y-4">
+                {following.map((followedUser) => (
+                  <div key={followedUser.id} className="flex items-center justify-between gap-3 p-2 rounded-md hover:bg-muted/50">
+                    <div className="flex items-center gap-3">
+                      <Avatar src={followedUser.profileImageUrl} size="sm" />
+                      <div>
+                        <p className="text-sm font-medium">{followedUser.username}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Following since {formatDistanceToNow(new Date(followedUser.followedAt), { addSuffix: false })} ago
+                        </p>
+                      </div>
+                    </div>
+                    <Button 
+                      variant="destructive" 
+                      size="sm"
+                      onClick={() => handleUnfollow(followedUser.id)}
+                    >
+                      <UserX size={16} className="mr-1" />
+                      Unfollow
+                    </Button>
                   </div>
-                </div>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => handleUnfollow(followedUser.id)}
-                  className="h-8 w-8 p-0 rounded-full"
-                  title="Unfollow"
-                >
-                  <X size={16} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-6">
+                <p className="text-muted-foreground mb-4">You're not following anyone yet</p>
+                <Button onClick={() => navigate('/livestream')} variant="outline">
+                  Discover Streamers
                 </Button>
               </div>
-            ))}
+            )}
           </div>
-        ) : (
-          <div className="text-center py-6">
-            <p className="text-muted-foreground mb-4">You're not following anyone yet</p>
-            <Button onClick={() => navigate('/livestream')} variant="outline">
-              Discover Streamers
-            </Button>
+        </div>
+        
+        {/* Right Column */}
+        <div className="md:w-1/2 p-4">
+          {/* Recent Activity Section */}
+          <div className="bg-card rounded-xl p-4">
+            <h3 className="font-bold text-foreground mb-4">Recent Activity</h3>
+            
+            {loadingActivities ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex items-center gap-3 animate-pulse">
+                    <div className="w-8 h-8 bg-muted rounded-full"></div>
+                    <div className="flex-1">
+                      <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+                      <div className="h-3 bg-muted rounded w-1/4"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : activities.length > 0 ? (
+              <div className="space-y-4">
+                {activities.map((activity) => (
+                  <div key={activity.id} className="flex items-start gap-3">
+                    {getActivityIcon(activity.type)}
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">{activity.title}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-muted-foreground">No recent activity to display.</p>
+            )}
           </div>
-        )}
+        </div>
       </div>
       
       <BottomNavigation />
