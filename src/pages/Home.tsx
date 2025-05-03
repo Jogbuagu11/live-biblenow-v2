@@ -23,18 +23,8 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background pb-16">
-      {/* Header */}
       <div className="bg-card p-6 shadow-sm">
         <HeaderBar />
-      </div>
-      
-      {/* Welcome Banner */}
-      <div className="bg-primary text-primary-foreground p-6 flex flex-col items-center">
-        <h1 className="text-2xl font-bold mb-3">Welcome</h1>
-        <p className="text-center mb-4">Your gateway to spiritual livestreams</p>
-        <Button variant="secondary" className="mt-2">
-          Explore Livestreams
-        </Button>
       </div>
       
       {/* Featured Streamers */}
