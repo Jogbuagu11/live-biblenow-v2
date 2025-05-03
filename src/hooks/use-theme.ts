@@ -1,2 +1,4 @@
 
-export { useTheme } from "@/components/ThemeProvider";
+import { useTheme } from "@/components/ThemeProvider";
+
+export { useTheme };
