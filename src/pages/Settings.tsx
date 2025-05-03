@@ -57,6 +57,11 @@ const Settings = () => {
             </div>
             <ThemeToggle />
           </div>
+        </div>
+        
+        {/* Invite Users - New separate section */}
+        <div className="mb-6 bg-card rounded-xl p-4">
+          <h2 className="font-bold text-foreground mb-4">Invite Users</h2>
           
           <button 
             onClick={() => setInviteModalOpen(true)}
