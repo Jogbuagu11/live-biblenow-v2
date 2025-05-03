@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Avatar from './Avatar';
 import { useTheme } from '@/hooks/use-theme';
-import Logo from './Logo';
 import { Button } from './ui/button';
 import { supabase } from '../integrations/supabase/client';
 import { User } from '@supabase/supabase-js';
@@ -90,7 +88,7 @@ const HeaderBar = () => {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Logo />
+          {/* Removed Logo component */}
         </div>
         
         <div className="flex items-center gap-4">

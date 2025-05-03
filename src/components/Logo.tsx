@@ -13,9 +13,10 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', className = '' }) => {
     lg: 'text-3xl'
   };
 
+  // Return an empty div - no text displayed
   return (
-    <div className={`font-bold ${sizeClasses[size]} ${className}`}>
-      <span className="text-biblegold">NOW</span>
+    <div className={`${sizeClasses[size]} ${className}`}>
+      {/* Text removed */}
     </div>
   );
 };
