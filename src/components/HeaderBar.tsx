@@ -48,7 +48,9 @@ const HeaderBar = () => {
   }, []);
 
   const handleLogin = () => {
-    window.location.href = '/auth';
+    // Redirect to auth.biblenow.io with return URL to /home
+    const returnUrl = encodeURIComponent(`${window.location.origin}/home`);
+    window.location.href = `https://auth.biblenow.io?returnUrl=${returnUrl}`;
   };
 
   const handleSearch = (e: React.FormEvent) => {
