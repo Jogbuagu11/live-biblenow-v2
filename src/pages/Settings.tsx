@@ -3,17 +3,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import BottomNavigation from '../components/BottomNavigation';
-import { ThemeToggle } from '../components/ThemeProvider';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { useTheme } from '../components/ThemeProvider';
-import InviteUserForm from '../components/InviteUserForm';
-import InviteHistory from '../components/InviteHistory';
-import { useToast } from '@/hooks/use-toast';
 
 const Settings = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [twoFA, setTwoFA] = useState(false);
-  const { toast } = useToast();
   
   const goBack = () => {
     navigate(-1);
@@ -30,10 +26,7 @@ const Settings = () => {
 
   const handleReportContent = () => {
     // In a real app, this would open a form
-    toast({
-      title: "Report content",
-      description: "The content reporting form would open here."
-    });
+    alert('This would open a content reporting form (UI demo only)');
   };
 
   return (
@@ -60,20 +53,6 @@ const Settings = () => {
               <p className="text-sm text-muted-foreground">Change app appearance</p>
             </div>
             <ThemeToggle />
-          </div>
-        </div>
-        
-        {/* Invite Friends - New Section */}
-        <div className="mb-6 bg-card rounded-xl p-4">
-          <h2 className="font-bold text-foreground mb-4">Invite Friends</h2>
-          
-          <div className="space-y-6">
-            <InviteUserForm />
-            
-            <div>
-              <h3 className="text-sm font-medium text-foreground mb-3">Sent Invitations</h3>
-              <InviteHistory />
-            </div>
           </div>
         </div>
         

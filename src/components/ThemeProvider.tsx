@@ -1,7 +1,5 @@
 
-"use client";
-
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
 
@@ -26,12 +24,9 @@ export function ThemeProvider({
   storageKey = "biblenow-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
-    }
-    return defaultTheme;
-  });
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+  );
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -61,23 +56,3 @@ export const useTheme = () => {
   }
   return context;
 };
-
-export function ThemeToggle({ className, onChange }: { className?: string; onChange?: (isDark: boolean) => void }) {
-  const { theme, setTheme } = useTheme();
-  
-  const handleToggle = (checked: boolean) => {
-    const newTheme = checked ? "dark" : "light";
-    setTheme(newTheme);
-    onChange?.(checked);
-  };
-  
-  return (
-    <Switch
-      checked={theme === "dark"}
-      onCheckedChange={handleToggle}
-      className={className}
-    />
-  );
-}
-
-import { Switch } from "@/components/ui/switch";
