@@ -25,24 +25,22 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [theme, setTheme] = React.useState<Theme>(defaultTheme);
 
-  // Load theme from localStorage and apply it in a single useEffect
+  // Load theme from localStorage on mount only
   React.useEffect(() => {
-    const root = window.document.documentElement;
-    
-    // Check if window exists (for SSR compatibility)
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem(storageKey) as Theme | null;
-      
-      // If a theme is stored, use that instead of the default
       if (storedTheme) {
         setTheme(storedTheme);
       }
     }
-    
-    // Apply theme class to document root
+  }, [storageKey]); // Only depends on storageKey
+
+  // Apply theme changes to the document
+  React.useEffect(() => {
+    const root = window.document.documentElement;
     root.classList.remove("light", "dark");
     root.classList.add(theme);
-  }, [storageKey, theme]);
+  }, [theme]); // Only depends on theme
 
   // Create a stable context value
   const contextValue = React.useMemo(() => ({

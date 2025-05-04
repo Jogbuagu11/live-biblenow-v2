@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { useTheme } from "../components/ThemeProvider";
+import { useTheme } from "@/hooks/use-theme";
 import { Switch } from "@/components/ui/switch";
 
 interface ThemeToggleProps {

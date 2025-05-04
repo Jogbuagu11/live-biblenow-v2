@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, User, Tv, Bell } from 'lucide-react';
-import { useTheme } from './ThemeProvider';
+import { useTheme } from '@/hooks/use-theme';
 
 const BottomNavigation = () => {
   const location = useLocation();
