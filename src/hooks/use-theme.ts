@@ -1,4 +1,4 @@
 
-import { useTheme } from "../components/ThemeProvider";
+import { useTheme as useThemeFromProvider } from "../components/ThemeProvider";
 
-export { useTheme };
+export const useTheme = useThemeFromProvider;

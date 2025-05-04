@@ -1,5 +1,5 @@
 
-import React from "react";
+import * as React from "react";
 
 export type Theme = "dark" | "light";
 
@@ -25,23 +25,27 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [theme, setTheme] = React.useState<Theme>(defaultTheme);
 
-  // Load theme from localStorage after mount
+  // Load theme from localStorage and apply it in a single useEffect
   React.useEffect(() => {
     const root = window.document.documentElement;
     
+    // Check if window exists (for SSR compatibility)
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem(storageKey) as Theme | null;
+      
+      // If a theme is stored, use that instead of the default
       if (storedTheme) {
         setTheme(storedTheme);
       }
-      
-      // Apply theme class
-      root.classList.remove("light", "dark");
-      root.classList.add(theme);
     }
+    
+    // Apply theme class to document root
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
   }, [storageKey, theme]);
 
-  const value = {
+  // Create a stable context value
+  const contextValue = React.useMemo(() => ({
     theme,
     setTheme: (newTheme: Theme) => {
       if (typeof window !== "undefined") {
@@ -49,10 +53,10 @@ export function ThemeProvider({
       }
       setTheme(newTheme);
     },
-  };
+  }), [theme, storageKey]);
 
   return (
-    <ThemeProviderContext.Provider value={value}>
+    <ThemeProviderContext.Provider value={contextValue}>
       {children}
     </ThemeProviderContext.Provider>
   );
