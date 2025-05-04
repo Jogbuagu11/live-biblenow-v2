@@ -1,4 +1,3 @@
-
 import * as React from "react";
 
 export type Theme = "dark" | "light";
@@ -22,12 +21,10 @@ export function ThemeProvider({
   children,
   defaultTheme = "dark",
   storageKey = "biblenow-theme",
-  ...props
 }: ThemeProviderProps) {
-  // Use standard approach to initialize state
   const [theme, setTheme] = React.useState<Theme>(defaultTheme);
-  
-  // Set up the theme from localStorage separately after mounting
+
+  // Load theme from localStorage after mount
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem(storageKey) as Theme | null;
@@ -37,6 +34,7 @@ export function ThemeProvider({
     }
   }, [storageKey]);
 
+  // Apply theme class to document root
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const root = window.document.documentElement;
@@ -47,16 +45,16 @@ export function ThemeProvider({
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
+    setTheme: (newTheme: Theme) => {
       if (typeof window !== "undefined") {
-        localStorage.setItem(storageKey, theme);
+        localStorage.setItem(storageKey, newTheme);
       }
-      setTheme(theme);
+      setTheme(newTheme);
     },
   };
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={value}>
       {children}
     </ThemeProviderContext.Provider>
   );
