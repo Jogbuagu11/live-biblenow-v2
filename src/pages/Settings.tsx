@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
@@ -24,7 +23,10 @@ const Settings = () => {
   };
 
   const handleLogout = () => {
-    navigate('/');
+    // Redirect to auth page with the current origin as redirectTo
+    // This ensures the user will be redirected back to this site after logging in again
+    const currentSite = window.location.origin;
+    navigate(`/?redirectTo=${encodeURIComponent(currentSite)}`);
   };
 
   const handleReportContent = () => {

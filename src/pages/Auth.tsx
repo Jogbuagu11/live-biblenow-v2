@@ -1,12 +1,13 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../components/Logo';
 import FormField from '../components/FormField';
 import Button from '../components/Button';
 import { useIsMobile } from '../hooks/use-mobile';
 import { Phone, Apple, Github } from 'lucide-react';
 import { Checkbox } from '../components/ui/checkbox';
+import { useToast } from '../hooks/use-toast';
 
 const Auth = () => {
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
@@ -14,15 +15,47 @@ const Auth = () => {
   const [ageVerified, setAgeVerified] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const isMobile = useIsMobile();
+  const { toast } = useToast();
+
+  // Extract redirectTo from URL query parameters
+  const [redirectTo, setRedirectTo] = useState<string | null>(null);
+  
+  useEffect(() => {
+    // Get redirectTo from URL query parameters when the component mounts
+    const queryParams = new URLSearchParams(location.search);
+    const redirectParam = queryParams.get('redirectTo');
+    if (redirectParam) {
+      setRedirectTo(redirectParam);
+    }
+  }, [location.search]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // For UI only, navigate to confirm email page after signup or home after login
+    // For UI only, show success toast and handle redirect
     if (activeTab === 'signup') {
+      // Store redirectTo in localStorage to persist through the signup flow
+      if (redirectTo) {
+        localStorage.setItem('redirectTo', redirectTo);
+      }
       navigate('/confirm-email');
     } else {
-      navigate('/home');
+      // Login success
+      toast({
+        title: "Login successful",
+        description: "You are now logged in",
+      });
+      
+      // Redirect to the specified URL or default to home
+      setTimeout(() => {
+        if (redirectTo) {
+          window.location.href = redirectTo;
+        } else {
+          // Default to live.biblenow.io if no redirectTo is specified
+          window.location.href = 'https://live.biblenow.io';
+        }
+      }, 1000); // Short delay to allow the toast to be seen
     }
   };
 

@@ -1,19 +1,45 @@
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
 
 const Setup2FA = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [redirectTo, setRedirectTo] = useState<string | null>(null);
+
+  useEffect(() => {
+    // First check if redirectTo is in URL params
+    const queryParams = new URLSearchParams(location.search);
+    const redirectParam = queryParams.get('redirectTo');
+    
+    // If not in URL, check localStorage (could have been set during signup)
+    const storedRedirect = localStorage.getItem('redirectTo');
+    
+    if (redirectParam) {
+      setRedirectTo(redirectParam);
+    } else if (storedRedirect) {
+      setRedirectTo(storedRedirect);
+    }
+  }, [location.search]);
 
   const handleSetup2FA = () => {
-    // In a real app, this would trigger 2FA setup flow
-    navigate('/profile-setup');
+    // Pass the redirectTo param to the next step
+    if (redirectTo) {
+      navigate(`/profile-setup?redirectTo=${encodeURIComponent(redirectTo)}`);
+    } else {
+      navigate('/profile-setup');
+    }
   };
 
   const handleSkip = () => {
-    navigate('/profile-setup');
+    // If skipping 2FA, handle the redirect here
+    if (redirectTo) {
+      navigate(`/profile-setup?redirectTo=${encodeURIComponent(redirectTo)}`);
+    } else {
+      navigate('/profile-setup');
+    }
   };
 
   return (
