@@ -9,6 +9,66 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_logs: {
+        Row: {
+          action: string
+          admin_email: string
+          admin_id: string | null
+          created_at: string | null
+          details: Json | null
+          id: string
+          target_id: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action: string
+          admin_email: string
+          admin_id?: string | null
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action?: string
+          admin_email?: string
+          admin_id?: string | null
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Relationships: []
+      }
+      admin_users: {
+        Row: {
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          last_login: string | null
+          role: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          full_name: string
+          id: string
+          last_login?: string | null
+          role?: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          last_login?: string | null
+          role?: string
+        }
+        Relationships: []
+      }
       audio_playlists: {
         Row: {
           created_at: string | null
@@ -316,6 +376,77 @@ export type Database = {
           used?: boolean
         }
         Relationships: []
+      }
+      flag_reasons: {
+        Row: {
+          full_verse: string
+          id: number
+          key: string
+          label: string
+          scripture_reference: string
+        }
+        Insert: {
+          full_verse: string
+          id?: number
+          key: string
+          label: string
+          scripture_reference: string
+        }
+        Update: {
+          full_verse?: string
+          id?: number
+          key?: string
+          label?: string
+          scripture_reference?: string
+        }
+        Relationships: []
+      }
+      flagged_content: {
+        Row: {
+          content_id: string
+          content_type: string
+          custom_reason: string | null
+          flagged_at: string | null
+          id: string
+          reason_key: string | null
+          report_url: string | null
+          reported_by: string | null
+          resolved_at: string | null
+          status: string | null
+        }
+        Insert: {
+          content_id: string
+          content_type: string
+          custom_reason?: string | null
+          flagged_at?: string | null
+          id?: string
+          reason_key?: string | null
+          report_url?: string | null
+          reported_by?: string | null
+          resolved_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          content_id?: string
+          content_type?: string
+          custom_reason?: string | null
+          flagged_at?: string | null
+          id?: string
+          reason_key?: string | null
+          report_url?: string | null
+          reported_by?: string | null
+          resolved_at?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flagged_content_reason_key_fkey"
+            columns: ["reason_key"]
+            isOneToOne: false
+            referencedRelation: "flag_reasons"
+            referencedColumns: ["key"]
+          },
+        ]
       }
       game_preferences: {
         Row: {
@@ -994,6 +1125,7 @@ export type Database = {
           denomination: string | null
           email: string | null
           first_name: string | null
+          full_name: string | null
           gender: string | null
           has_completed_2fa: boolean | null
           has_completed_profile: boolean | null
@@ -1002,6 +1134,7 @@ export type Database = {
           is_verified: boolean | null
           last_name: string | null
           location: string | null
+          ministry_name: string | null
           name: string | null
           phone: string | null
           phone_number: string | null
@@ -1029,6 +1162,7 @@ export type Database = {
           denomination?: string | null
           email?: string | null
           first_name?: string | null
+          full_name?: string | null
           gender?: string | null
           has_completed_2fa?: boolean | null
           has_completed_profile?: boolean | null
@@ -1037,6 +1171,7 @@ export type Database = {
           is_verified?: boolean | null
           last_name?: string | null
           location?: string | null
+          ministry_name?: string | null
           name?: string | null
           phone?: string | null
           phone_number?: string | null
@@ -1064,6 +1199,7 @@ export type Database = {
           denomination?: string | null
           email?: string | null
           first_name?: string | null
+          full_name?: string | null
           gender?: string | null
           has_completed_2fa?: boolean | null
           has_completed_profile?: boolean | null
@@ -1072,6 +1208,7 @@ export type Database = {
           is_verified?: boolean | null
           last_name?: string | null
           location?: string | null
+          ministry_name?: string | null
           name?: string | null
           phone?: string | null
           phone_number?: string | null
@@ -1456,7 +1593,9 @@ export type Database = {
         Row: {
           created_at: string | null
           description: string | null
+          flag_count: number | null
           id: string
+          is_hidden: boolean | null
           is_live: boolean | null
           stream_url: string
           title: string
@@ -1465,7 +1604,9 @@ export type Database = {
         Insert: {
           created_at?: string | null
           description?: string | null
+          flag_count?: number | null
           id?: string
+          is_hidden?: boolean | null
           is_live?: boolean | null
           stream_url: string
           title: string
@@ -1474,7 +1615,9 @@ export type Database = {
         Update: {
           created_at?: string | null
           description?: string | null
+          flag_count?: number | null
           id?: string
+          is_hidden?: boolean | null
           is_live?: boolean | null
           stream_url?: string
           title?: string
@@ -1807,7 +1950,14 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      flagged_content_counts: {
+        Row: {
+          content_id: string | null
+          content_type: string | null
+          flag_count: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       apple_subscription_webhook: {

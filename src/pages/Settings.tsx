@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
@@ -5,6 +6,7 @@ import BottomNavigation from '../components/BottomNavigation';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useTheme } from '@/hooks/use-theme';
 import { InviteUsersModal } from '@/components/InviteUsersModal';
+import { ReportContentModal } from '@/components/ReportContentModal';
 import { UserPlus } from 'lucide-react';
 
 const Settings = () => {
@@ -12,6 +14,7 @@ const Settings = () => {
   const { theme } = useTheme();
   const [twoFA, setTwoFA] = useState(false);
   const [inviteModalOpen, setInviteModalOpen] = useState(false);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
   
   const goBack = () => {
     navigate(-1);
@@ -27,11 +30,6 @@ const Settings = () => {
     // This ensures the user will be redirected back to this site after logging in again
     const currentSite = window.location.origin;
     navigate(`/?redirectTo=${encodeURIComponent(currentSite)}`);
-  };
-
-  const handleReportContent = () => {
-    // In a real app, this would open a form
-    alert('This would open a content reporting form (UI demo only)');
   };
 
   return (
@@ -103,7 +101,7 @@ const Settings = () => {
           </button>
         </div>
         
-        {/* Report Content */}
+        {/* Report Content - Separate section */}
         <div className="mb-6 bg-card rounded-xl p-4">
           <h2 className="font-bold text-foreground mb-4">Report Content</h2>
           
@@ -112,7 +110,7 @@ const Settings = () => {
           </div>
           
           <Button 
-            onClick={handleReportContent} 
+            onClick={() => setReportModalOpen(true)} 
             className="bg-primary hover:bg-opacity-90 text-primary-foreground" 
             fullWidth
           >
@@ -138,8 +136,9 @@ const Settings = () => {
         </Button>
       </div>
 
-      {/* Invite Users Modal */}
+      {/* Modals */}
       <InviteUsersModal open={inviteModalOpen} onOpenChange={setInviteModalOpen} />
+      <ReportContentModal open={reportModalOpen} onOpenChange={setReportModalOpen} />
       
       <BottomNavigation />
     </div>
