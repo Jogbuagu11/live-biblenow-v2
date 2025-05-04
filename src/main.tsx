@@ -1,19 +1,20 @@
+import { createRoot } from 'react-dom/client';
+import React from 'react';
+import App from './App.tsx';
+import './index.css';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { registerServiceWorker } from './registerSW';
 
-import { createRoot } from 'react-dom/client'
-import React from 'react'
-import App from './App.tsx'
-import './index.css'
-import { registerServiceWorker } from './registerSW'
-
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 
 if (rootElement) {
   createRoot(rootElement).render(
     <React.StrictMode>
-      <App />
+      <ThemeProvider defaultTheme="dark">
+        <App />
+      </ThemeProvider>
     </React.StrictMode>
   );
 }
 
-// Register the service worker
 registerServiceWorker();
