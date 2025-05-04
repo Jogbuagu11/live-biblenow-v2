@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import * as React from "react";
 
 export type Theme = "dark" | "light";
 
@@ -14,7 +14,7 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void;
 };
 
-const ThemeProviderContext = createContext<ThemeProviderState | undefined>(
+const ThemeProviderContext = React.createContext<ThemeProviderState | undefined>(
   undefined
 );
 
@@ -24,11 +24,11 @@ export function ThemeProvider({
   storageKey = "biblenow-theme",
   ...props
 }: ThemeProviderProps) {
-  // Define initial state directly without using function initialization
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
+  // Use standard approach to initialize state
+  const [theme, setTheme] = React.useState<Theme>(defaultTheme);
   
   // Set up the theme from localStorage separately after mounting
-  useEffect(() => {
+  React.useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem(storageKey) as Theme | null;
       if (storedTheme) {
@@ -37,7 +37,7 @@ export function ThemeProvider({
     }
   }, [storageKey]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (typeof window !== "undefined") {
       const root = window.document.documentElement;
       root.classList.remove("light", "dark");
@@ -63,7 +63,7 @@ export function ThemeProvider({
 }
 
 export const useTheme = () => {
-  const context = useContext(ThemeProviderContext);
+  const context = React.useContext(ThemeProviderContext);
   if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
