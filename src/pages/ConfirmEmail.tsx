@@ -1,8 +1,39 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo';
 
 const ConfirmEmail = () => {
+  const navigate = useNavigate();
+  
+  // Get redirectTo from localStorage if it exists
+  useEffect(() => {
+    const handleConfirmation = () => {
+      // Code to simulate email confirmation - in a real app this would verify the token
+      console.log('Email confirmed');
+      
+      // After email confirmation, redirect to setup-2fa with the redirectTo parameter
+      const redirectTo = localStorage.getItem('redirectTo');
+      if (redirectTo) {
+        navigate(`/setup-2fa?redirectTo=${encodeURIComponent(redirectTo)}`);
+      } else {
+        navigate('/setup-2fa');
+      }
+    };
+
+    // Simulate email confirmation button click for demo
+    const confirmButton = document.querySelector('button.text-primary');
+    if (confirmButton) {
+      confirmButton.addEventListener('click', handleConfirmation);
+    }
+
+    return () => {
+      if (confirmButton) {
+        confirmButton.removeEventListener('click', handleConfirmation);
+      }
+    };
+  }, [navigate]);
+
   return (
     <div className="min-h-screen bg-background p-6 flex flex-col items-center justify-center">
       <Logo size="lg" className="mb-10" />

@@ -1,16 +1,41 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
 import Avatar from '../components/Avatar';
 
 const ProfileSetup = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [bio, setBio] = useState('');
+  const [redirectTo, setRedirectTo] = useState<string | null>(null);
+  
+  useEffect(() => {
+    // Check for redirectTo parameter in URL
+    const queryParams = new URLSearchParams(location.search);
+    const redirectParam = queryParams.get('redirectTo');
+    
+    // If not in URL, check localStorage
+    const storedRedirect = localStorage.getItem('redirectTo');
+    
+    if (redirectParam) {
+      setRedirectTo(redirectParam);
+    } else if (storedRedirect) {
+      setRedirectTo(storedRedirect);
+    }
+  }, [location.search]);
   
   const handleSave = () => {
-    navigate('/home');
+    // Clear redirectTo from localStorage as we're about to use it
+    localStorage.removeItem('redirectTo');
+    
+    // If redirectTo exists, go there, otherwise go to home
+    if (redirectTo) {
+      window.location.href = redirectTo;
+    } else {
+      navigate('/home');
+    }
   };
 
   return (

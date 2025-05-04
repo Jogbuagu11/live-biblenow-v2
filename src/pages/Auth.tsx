@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../components/Logo';
@@ -47,15 +46,13 @@ const Auth = () => {
         description: "You are now logged in",
       });
       
-      // Redirect to the specified URL or default to home
-      setTimeout(() => {
-        if (redirectTo) {
-          window.location.href = redirectTo;
-        } else {
-          // Default to live.biblenow.io if no redirectTo is specified
-          window.location.href = 'https://live.biblenow.io';
-        }
-      }, 1000); // Short delay to allow the toast to be seen
+      // Immediately redirect to the specified URL without setTimeout
+      if (redirectTo) {
+        window.location.href = redirectTo;
+      } else {
+        // Default to live.biblenow.io if no redirectTo is specified
+        window.location.href = 'https://live.biblenow.io';
+      }
     }
   };
 
