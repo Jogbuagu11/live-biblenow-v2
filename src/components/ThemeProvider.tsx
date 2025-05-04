@@ -24,18 +24,25 @@ export function ThemeProvider({
   storageKey = "biblenow-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    // Only access localStorage in browser environment
+  // Define initial state directly without using function initialization
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
+  
+  // Set up the theme from localStorage separately after mounting
+  useEffect(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
+      const storedTheme = localStorage.getItem(storageKey) as Theme | null;
+      if (storedTheme) {
+        setTheme(storedTheme);
+      }
     }
-    return defaultTheme;
-  });
+  }, [storageKey]);
 
   useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(theme);
+    if (typeof window !== "undefined") {
+      const root = window.document.documentElement;
+      root.classList.remove("light", "dark");
+      root.classList.add(theme);
+    }
   }, [theme]);
 
   const value = {
