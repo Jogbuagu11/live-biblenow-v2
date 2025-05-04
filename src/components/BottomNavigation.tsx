@@ -15,7 +15,7 @@ const BottomNavigation = () => {
 
   return (
     <div className={`fixed bottom-0 left-0 right-0 ${theme === 'dark' ? 'bg-background' : 'bg-white'} border-t border-border z-50 flex justify-around py-2`}>
-      <Link to="/" className={`flex flex-col items-center py-2 px-4 ${isActive('/') ? 'text-primary' : 'text-muted-foreground'}`}>
+      <Link to="/home" className={`flex flex-col items-center py-2 px-4 ${isActive('/home') ? 'text-primary' : 'text-muted-foreground'}`}>
         <Home size={24} />
         <span className="text-xs mt-1">Home</span>
       </Link>

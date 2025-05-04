@@ -4,7 +4,11 @@ import App from './App.tsx'
 import './index.css'
 import { registerServiceWorker } from './registerSW'
 
-createRoot(document.getElementById("root")!).render(<App />);
+const rootElement = document.getElementById("root");
+
+if (rootElement) {
+  createRoot(rootElement).render(<App />);
+}
 
 // Register the service worker
 registerServiceWorker();

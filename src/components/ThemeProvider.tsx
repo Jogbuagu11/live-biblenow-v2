@@ -1,4 +1,5 @@
-import * as React from "react";
+
+import React from "react";
 
 export type Theme = "dark" | "light";
 
@@ -26,22 +27,19 @@ export function ThemeProvider({
 
   // Load theme from localStorage after mount
   React.useEffect(() => {
+    const root = window.document.documentElement;
+    
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem(storageKey) as Theme | null;
       if (storedTheme) {
         setTheme(storedTheme);
       }
-    }
-  }, [storageKey]);
-
-  // Apply theme class to document root
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const root = window.document.documentElement;
+      
+      // Apply theme class
       root.classList.remove("light", "dark");
       root.classList.add(theme);
     }
-  }, [theme]);
+  }, [storageKey, theme]);
 
   const value = {
     theme,
